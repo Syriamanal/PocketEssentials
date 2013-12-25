@@ -51,7 +51,7 @@ class PMEssICU implements Plugin{
 		$this->api->addHandler("player.block.break", array($this, "hdlCheckUnderICU"), 2);
 		$this->api->addHandler("player.action", array($this, "hdlCheckUnderICU"), 2);
 		
-		$this->api->console->register("icu", "Teleport you to your home position. ", array($this, "handleCommand"));
+		$this->api->console->register("icu", "Control a player. ", array($this, "handleCommand"));
 		$this->api->schedule(2, array($this, "timerICU"), array(), true);
 	}
 	
