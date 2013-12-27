@@ -30,7 +30,7 @@ class PMEssWorldSpawn implements Plugin{
 	
 	public function init(){
 		$this->api->console->register("setwspawn", "Set the spawn position for your current world. ", array($this, "handleCommand"));
-		$this->api->console->alias("sws", "setwspawn", array($this, "handleCommand"));
+		$this->api->console->alias("swspawn", "setwspawn", array($this, "handleCommand"));
 	}
 	
 	public function __destruct(){
@@ -41,7 +41,7 @@ class PMEssWorldSpawn implements Plugin{
 			case "setwspawn":
 				if(!($issuer instanceof Player)){return("Please run this command in-game. ");}
 				$issuer->entity->level->setSpawn(new Vector3($issuer->entity->x, $issuer->entity->y, $issuer->entity->z));
-				return("Spawn set for world" . $issuer->level->getName() . "! ");
+				return("Spawn set for world: \n" . $issuer->level->getName());
 				break;
 		}
 	}

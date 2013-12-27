@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Portals
-version=3.6.3-Beta
+version=3.6.4-Alpha
 author=Kevin Wang
 class=PMEssPortals
 apiversion=11
@@ -138,7 +138,7 @@ class PMEssPortals implements Plugin{
 						}
 						*/
 						$data->player->sendChat("Teleporting " . $data->player->username . " to world: " . $world);
-						$lv = $this->server->api->level->get($world);
+						$lv = $this->api->level->get($world);
 						if(($lv instanceof Level) and ($data instanceof Entity) and ($data->player instanceof Player)){
 							$data->player->teleport($lv->getSafeSpawn());
 						}

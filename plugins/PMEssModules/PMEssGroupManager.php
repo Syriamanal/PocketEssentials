@@ -5,7 +5,7 @@
 __PocketMine Plugin__
 name=PMEss-GroupManager
 description=PocketEssentials GroupManager
-version=3.6.3-Beta
+version=3.6.4-Alpha
 author=Kevin Wang
 class=PMEssGM
 apiversion=11
@@ -50,7 +50,7 @@ GroupName.YML{
 class PMEssGM implements Plugin{
 	private $api;
 	
-	private $defaultPerms = array("&.login", "&.register", "&.unregister", "&.tell", "&.tpa", "&.tpaccept", "&.tpdeny", "&.home", "&.sethome", "&.lock", "&.unlock", "&.chat-on", "&.chat-off");
+	private $defaultPerms = array("&.login", "&.register", "&.unregister", "&.tell", "&.tpa", "&.tpaccept", "&.tpdeny", "&.home", "&.sethome", "&.lock", "&.unlock", "&.chat-on", "&.chat-off", "&.spawn");
 	
 	public $userDir;
 	public $groupDir;
@@ -182,10 +182,13 @@ class PMEssGM implements Plugin{
 					$output .= "Usage: \n/manuadd \n<player> <group> <long> <expire group>\nlong = The time of rank(in days)\nexpire group = The group to set after expire";
 					break;
 				}
-				if(count($arg)!=2){
-					if(is_int($arg[2]) == false){
-						return("The time of the rank should be numbers in day unit. ");
+				if(count($arg) == 2){
+					if(strtolower($arg[1]) == "default"){
+						$this->api->console->run("manudel " . $arg[0]);
+						return;
 					}
+				}
+				if(count($arg)!=2){
 					if($this->groupExists($arg[3]) == false){
 						return("Expire group doesn't exist! ");
 					}
@@ -199,7 +202,7 @@ class PMEssGM implements Plugin{
 					$userCfg->set("ExpDay", -1);
 					$userCfg->set("ExpGroup", -1);
 				}else{
-					$expDate  = mktime(0, 0, 0, date("m")  , date("d")+intval($arg[2]), date("Y"));
+					$expDate  = mktime(0, 0, 0, date("m")  , date("d")+((int)$arg[2]), date("Y"));
 					$output .= "Rank End Time(Y-M-D): \n" . date("Y-m-d e", $expDate) . "\n";
 					$expYear = date("Y", $expDate);
 					$expMonth = date("m", $expDate);
@@ -230,7 +233,7 @@ class PMEssGM implements Plugin{
 				if($group!=false){
 					$groupCfg = new Config($this->groupDir."/".strtolower($group).".yml", CONFIG_YAML, array());
 					$members=$groupCfg->get("Members");
-					unset($members[strtolower($arg[0])]);
+					if(isset($members[strtolower($arg[0])])){unset($members[strtolower($arg[0])]);}
 					$groupCfg->set("Members", $members);
 					$groupCfg->save();
 				}
