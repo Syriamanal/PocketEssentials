@@ -30,6 +30,7 @@ class PMEssWorldSpawn implements Plugin{
 	
 	public function init(){
 		$this->api->console->register("setwspawn", "Set the spawn position for your current world. ", array($this, "handleCommand"));
+		$this->api->console->alias("sws", "setwspawn", array($this, "handleCommand"));
 	}
 	
 	public function __destruct(){
