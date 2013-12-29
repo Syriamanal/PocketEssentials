@@ -4,7 +4,7 @@
 __PocketMine Plugin__
 name=PMEssentials-Redstone
 description=Redstone System
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssRedstone
 apiversion=11
@@ -23,7 +23,7 @@ class PMEssRedstone implements Plugin{
 		$this->server =ServerAPI::request();
 	}
 	public function init(){
-		$this->api->addHandler("player.block.touch", array($this, "blocktouch"), 100);
+		$this->api->addHandler("player.block.touch", array($this, "asg48534t544dj"), 100);
 		$this->api->addHandler("player.block.activate", array($this, "blockactivate"), 100);
 		$config =new Config($this->api->plugin->configPath($this)."config.yml", CONFIG_YAML, array( 'RedstoneWire' => 41, 'Button' => 57, 'PistonFirstBlock' => 112, 'ExplosiveBlock' => 87));
 		//Support old version check
@@ -83,7 +83,7 @@ class PMEssRedstone implements Plugin{
 			}
 		}
 	}
-	public function blocktouch($data){
+	public function asg48534t544dj($data){
 		$id =$data["target"]->getID();
 		if($id === BUTTON){
 			$target =$data["target"];

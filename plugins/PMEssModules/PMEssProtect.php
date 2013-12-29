@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -30,18 +30,18 @@ $this->api =$api; $this->pos1 =array(); $this->pos2 =array(); $this->level =arra
 }
 public function init() {
 	$this->createConfig(); 
-	$this->api->console->register("unprotect", "Unprotects your private area.", array($this, "commandH"));
-	$this->api->console->register("selworld", "Select whole world to protect.", array($this, "commandH")); 
-	$this->api->console->register("protect", "Protects the area for you.", array($this, "commandH")); 
-	$this->api->addHandler("player.block.touch", array($this, "handle"), 7); 
-	$this->api->addHandler("player.block.place", array($this, "handle"), 7); 
-	$this->api->addHandler("player.block.break", array($this, "handle"), 7); 
+	$this->api->console->register("unprotect", "Unprotects your private area.", array($this, "dsgf54ew5"));
+	$this->api->console->register("selworld", "Select whole world to protect.", array($this, "dsgf54ew5")); 
+	$this->api->console->register("protect", "Protects the area for you.", array($this, "dsgf54ew5")); 
+	$this->api->addHandler("player.block.touch", array($this, "b7ds5g4"), 7); 
+	$this->api->addHandler("player.block.place", array($this, "b7ds5g4"), 7); 
+	$this->api->addHandler("player.block.break", array($this, "b7ds5g4"), 7); 
 	$this->api->console->alias("ppos1", "protect pos1"); 
 	$this->api->console->alias("ppos2", "protect pos2");
 }
 public function __destruct(){
 }
-public function commandH($cmd, $params, $issuer, $alias){
+public function dsgf54ew5($cmd, $params, $issuer, $alias){
 	$output =""; 
 	if ($issuer instanceof Player) {$user =$issuer->iusername; 
 		switch($cmd){
@@ -167,7 +167,7 @@ $this->config[$user][$world]['protect'] =false; $this->writeConfig($this->config
 }
 return $output;
 }
-public function handle($data, $event){
+public function b7ds5g4($data, $event){
 switch ($event) {
 	case "player.block.touch":
 		$block = $data["target"];

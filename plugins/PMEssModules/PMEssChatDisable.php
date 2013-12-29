@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-ChatDisable
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssDisableChat
 apiversion=11

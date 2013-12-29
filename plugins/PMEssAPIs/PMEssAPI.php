@@ -15,8 +15,10 @@ E-Mail: kevin@cnkvha.com
 
 class PMEssAPI{
 	private $server;
+	private $api;
 	function __construct(){
 		$this->server = ServerAPI::request();
+		$this->api = $this->server->api;
 	}
 	
 	public function init(){
@@ -112,6 +114,35 @@ class PMEssAPI{
 			}
 		}
 		return(true);
+	}
+	
+	public function disguiseAsBlock($player, $blockID = 20){
+		if(!($player instanceof Player)){
+			$p = $this->server->api->player->get($player);
+			if($p != false){
+				return($this->disguiseAsBlock($p, $blockID));
+			}else{
+				return(false);
+			}
+		}
+		//Undisguise
+		if($this->api->session->sessions[$player->CID]["dPState"] == true){
+			$this->api->session->sessions[$player->CID]["dPState"] = false;
+			$this->api->session->sessions[$player->CID]["dPUsername"] = "";
+		}
+		if($this->api->session->sessions[$player->CID]["dMState"] == true){
+			$this->api->session->sessions[$player->CID]["dMState"] = false;
+			$this->api->session->sessions[$player->CID]["dMData"] = 0x00;
+		}
+		if(isset($this->dEData[$player->CID])){unset($this->dEData[$player->CID]);}
+		$this->api->session->sessions[$player->CID]["dEState"] = true;
+		$this->api->session->sessions[$player->CID]["dEType"] = 2;
+		$this->api->session->sessions[$player->CID]["dEBlockID"] = (int) $blockID;
+		foreach($issuer->level->players as $p){
+			if($p->eid != $issuer->eid){
+				PMEssCore::recreateBlockEntity($p, $player, (int) $blockID);
+			}
+		}
 	}
 	
 }

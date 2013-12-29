@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-PowerTool
-version=3.6.4-Alpha
+version=3.6.5-Alpha
 author=Kevin Wang
 class=PMEssPowerTool
 apiversion=11
@@ -32,15 +32,15 @@ class PMEssPowerTool implements Plugin{
 	
 	public function init(){
 		$this->api->session->setDefaultData($this->sesName, array());
-		$this->api->console->register("powertool", "PowerTool by KevinWang_China. ", array($this, "handleCommand"));
-		$this->api->console->alias("pt", "powertool", array($this, "handleCommand"));
-		$this->api->addHandler("player.block.touch", array($this, "eventBlockTouch"), 1);
+		$this->api->console->register("powertool", "PowerTool by KevinWang_China. ", array($this, "ew4ey43y453sd"));
+		$this->api->console->alias("pt", "powertool", array($this, "ew4ey43y453sd"));
+		$this->api->addHandler("player.block.touch", array($this, "e3t1s2145asTouch"), 1);
 	}
 	
 	public function __destruct(){
 	}
 	
-	public function handleCommand($cmd, $arg, $issuer, $alias){
+	public function ew4ey43y453sd($cmd, $arg, $issuer, $alias){
 		switch(strtolower($cmd)){
 			case "powertool":
 				if($this->api->perm->checkPerm($issuer->iusername, "&.powertool") == false and $this->api->perm->checkPerm($issuer->iusername, "&.pt") == false){
@@ -69,7 +69,7 @@ class PMEssPowerTool implements Plugin{
 		}
 	}
 	
-	public function eventBlockTouch(&$data, $event){
+	public function e3t1s2145asTouch(&$data, $event){
 		$id = $data["item"]->getID();
 		if(isset($this->api->session->sessions[$data["player"]->CID][$this->sesName]["ITEM:" . $id])){
 			$this->api->console->run($this->api->session->sessions[$data["player"]->CID][$this->sesName]["ITEM:" . $id], $data["player"]);

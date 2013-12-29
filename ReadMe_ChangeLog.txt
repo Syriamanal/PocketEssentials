@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 3.6.4-Alpha
+                                     Package Version: 3.6.5-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,11 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 3.6.5 Alpha ( 2013/12/29 )
+      - Added a function to CoreAPI
+        ( $api->pmess->disguiseAsBlock(Player $player, int $blockID); )
+      - Fixed player can do any commands when DISABLED GroupManager :O
+      - Added some code obfuscation due to prevent people read and steal my code. :D
   - 3.6.4 Alpha ( 2013/12/28 )
       - Added Multi-Protection
          (/protect, /protect set [Protection ID] , /unprotect [Protection ID])
