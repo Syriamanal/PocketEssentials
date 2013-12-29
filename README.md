@@ -10,6 +10,26 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+
+  - 3.6.4 Alpha ( 2013/12/28 )
+      - Added Multi-Protection
+         (/protect, /protect set [Protection ID] , /unprotect [Protection ID])
+      - Fixed some GroupManager Group(Rank) time limit bugs
+      - Now disk space will be free if you move someone to Default group forever
+      - Added alias to /swspawn for the command /setwspawn
+      - Fixed the iControlU help text
+      - Fixed WorldSpawn module not loading
+      - Added /spawn to default commands for GroupManager
+  - 3.6.3 Beta ( 2013/12/22 )
+      - Added World Spawn Changer ( /setwspawn ), suggested by iksasu on Github(issue 1)
+      - Fixed the bugs(Github issue 3 and 5) reported by iksasu. 
+      - Fixed God Mode doesn't work. (Github issue 6)
+  - 3.6.2 Beta ( 2013/12/22 )
+      - Fixed lots of DisguiseCraft bugs. 
+        (You won't lose your disguise when vanish/unvanish)
+        (You won't lose your disguise when teleport to another world)
+      - Fixed some errors
+        (Removed case-insensitivity in Session API)
   - 3.6.1 Beta ( 2013/12/21 )
       - Added BlockDisguise permissions for each block ID
         ("pmess.disguisecraft.block" for all blocks)
