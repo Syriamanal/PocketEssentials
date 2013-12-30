@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=3.6.6-Alpha
+version=3.6.7-Alpha
 author=Kevin Wang
 class=PMEssCore
 apiversion=11

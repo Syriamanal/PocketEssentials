@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=3.6.6-Alpha
+version=3.6.7-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -52,7 +52,7 @@ public function dsgf54ew5($cmd, $params, $issuer, $alias){
 				$this->level[$user][1] =$issuer->level->getName();
 				$this->pos1[$user] =array(0, 0, 0);
 				$this->pos2[$user] =array(256, 128, 256);
-				return("Whole world selected! \nType /protect to protect this world. ");
+				return("Whole world selected! \nType /protect set [Protection ID] to protect this world. ");
 				break;
 			case "protect": 
 				$mode =array_shift($params); 
@@ -172,7 +172,7 @@ switch ($event) {
 	case "player.block.touch":
 		$block = $data["target"];
 		foreach ($this->config as $name => $w) {
-			foreach ($w as $wld => $config) {
+			foreach ($w as $config) {
 				if ($name == $data['player']->iusername) {
 					continue;
 				}
@@ -195,7 +195,7 @@ switch ($event) {
 		$block =$data['target']; 
 		if ($block->getID() == 63 || $block->getID() == 68) {break;}
 		foreach ($this->config as $name => $w) {
-			foreach ($w as $wld => $config) {
+			foreach ($w as $config) {
 				if ($name == $data['player']->iusername) {
 					continue;
 				}
@@ -218,7 +218,7 @@ switch ($event) {
 		if ($data['item']->getID() == 323) {break;}
 		$block =$data['block']; 
 		foreach ($this->config as $name => $w) {
-			foreach ($w as $wld => $config) {
+			foreach ($w as $config) {
 				if ($name == $data['player']->iusername) {
 					continue;
 				}
@@ -257,7 +257,7 @@ public function writeConfig($data) {$this->api->plugin->writeYAML($this->path."c
 
 public function getProtectID($player, $world){
 		if(isset($this->config[$player][$world])){
-			foreach ($this->config[$player][$world] as $wld => $config) {
+			foreach ($this->config[$player][$world] as $config) {
 				$x =$player->entity->x;
 				$y =$player->entity->y; 
 				$z =$player->entity->z; 

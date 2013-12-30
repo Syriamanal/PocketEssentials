@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 3.6.6-Alpha
+                                     Package Version: 3.6.7-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,11 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 3.6.7 Alpha ( 2013/12/30 )
+      - Fixed the PMEssProtect bug
+      - Fixed the display text problems in PMEssProtect
+      - *HideNSeek Plugin still work with this update! 
+         (http://github.com/kvwang98/HideNSeek)
   - 3.6.6 Alpha ( 2013/12/30 )
       - Fixed the PMEssAPI Error
       - Changed the time interval of updating the position when disguised as a block
