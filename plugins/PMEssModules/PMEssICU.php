@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-iControlU
-version=3.6.5-Alpha
+version=3.6.6-Alpha
 author=Kevin Wang
 class=PMEssICU
 apiversion=11

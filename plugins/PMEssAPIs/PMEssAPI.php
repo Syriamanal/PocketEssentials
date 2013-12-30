@@ -138,9 +138,60 @@ class PMEssAPI{
 		$this->api->session->sessions[$player->CID]["dEState"] = true;
 		$this->api->session->sessions[$player->CID]["dEType"] = 2;
 		$this->api->session->sessions[$player->CID]["dEBlockID"] = (int) $blockID;
-		foreach($issuer->level->players as $p){
-			if($p->eid != $issuer->eid){
-				PMEssCore::recreateBlockEntity($p, $player, (int) $blockID);
+		foreach($player->level->players as $p){
+			if($p->eid != $player->eid){
+				$p->dataPacket(MC_REMOVE_ENTITY, array(
+					"eid" => $player->eid
+					));
+				$p->dataPacket(MC_ADD_ENTITY, array(
+					"eid" => $player->eid,
+					"type" => FALLING_SAND,
+					"x" => $player->entity->x,
+					"y" => $player->entity->y,
+					"z" => $player->entity->z,
+					"did" => -((int)$blockID),
+				));
+				$p->dataPacket(MC_SET_ENTITY_MOTION, array(
+					"eid" => $player->eid,
+					"speedX" => 0,
+					"speedY" => 64,
+					"speedZ" => 0
+				));
+			}
+		}
+	}
+	
+	public function undisguise($player){
+		if($this->api->session->sessions[$player->CID]["dPState"] == true){
+			$this->api->session->sessions[$player->CID]["dPState"] = false;
+			$this->api->session->sessions[$player->CID]["dPUsername"] = "";
+		}
+		if($this->api->session->sessions[$player->CID]["dMState"] == true){
+			$this->api->session->sessions[$player->CID]["dMState"] = false;
+			$this->api->session->sessions[$player->CID]["dMData"] = 0x00;
+		}
+		if(isset($this->dEData[$player->CID])){unset($this->dEData[$player->CID]);}
+		$this->api->session->sessions[$player->CID]["dEState"] = false;
+		$this->api->session->sessions[$player->CID]["dEType"] = 0;
+		$this->api->session->sessions[$player->CID]["dEBlockID"] = -1;
+		foreach($player->level->players as $p){
+			if($p->eid != $player->eid){
+				$p->dataPacket(MC_REMOVE_ENTITY, array(
+					"eid" => $player->eid
+					));
+				$p->dataPacket(MC_ADD_PLAYER, array(
+					"clientID" => 0,
+					"username" => $player->username,
+					"eid" => $player->eid,
+					"x" => $player->entity->x,
+					"y" => $player->entity->y,
+					"z" => $player->entity->z,
+					"yaw" => 0,
+					"pitch" => 0,
+					"unknown1" => 0,
+					"unknown2" => 0,
+					"metadata" => $player->entity->getMetadata())
+					);
 			}
 		}
 	}

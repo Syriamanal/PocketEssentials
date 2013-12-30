@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=3.6.5-Alpha
+version=3.6.6-Alpha
 author=Kevin Wang
 class=PMEssCore
 apiversion=11
@@ -65,7 +65,7 @@ class PMEssCore implements Plugin{
 		$this->api->session->setDefaultData("dEType", 0);  //0 = none, 1 = primed TNT, 2 = Block
 		$this->api->session->setDefaultData("dEBlockID", -1); 
 		
-		$this->api->schedule(10, array($this, "timerMoveEntity"), array(), true);
+		$this->api->schedule(5, array($this, "timerMoveEntity"), array(), true);
 		
 		$this->api->addHandler("player.chat", array($this, "handleEvent"), 65535);
 		$this->api->addHandler("player.move", array($this, "handleEvent"), 1);
@@ -765,7 +765,7 @@ class PMEssCore implements Plugin{
 		$p->dataPacket(MC_SET_ENTITY_MOTION, array(
 			"eid" => $issuer->eid,
 			"speedX" => 0,
-			"speedY" => 0,
+			"speedY" => 64,
 			"speedZ" => 0
 		));
 	}
