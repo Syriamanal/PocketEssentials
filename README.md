@@ -10,7 +10,9 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
-
+   - 3.6.8 Alpha ( 2014/1/1 )
+      - Really fixed PMEssProtect bug(Last fix faild)
+      - Made PMEssProtect area detection a little bit faster
    - 3.6.7 Alpha ( 2013/12/30 )
       - Fixed the PMEssProtect bug
       - Fixed the display text problems in PMEssProtect

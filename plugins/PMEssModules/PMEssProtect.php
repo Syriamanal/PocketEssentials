@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=3.6.7-Alpha
+version=3.6.8-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -167,23 +167,25 @@ $this->config[$user][$world]['protect'] =false; $this->writeConfig($this->config
 }
 return $output;
 }
-public function b7ds5g4($data, $event){
+public function b7ds5g4(&$data, $event){
 switch ($event) {
 	case "player.block.touch":
 		$block = $data["target"];
-		foreach ($this->config as $name => $w) {
-			foreach ($w as $config) {
-				if ($name == $data['player']->iusername) {
-					continue;
-				}
-				$x =$block->x; 
-				$y =$block->y; 
-				$z =$block->z; 
-				if($config['min'][0] <= $x && $x <= $config['max'][0]) {
-					if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
-						if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
-							$data['player']->sendChat("This is ".$name."'s private area."); 
-							return false;
+		$x =$block->x; 
+		$y =$block->y; 
+		$z =$block->z; 
+		foreach ($this->config as $name => $wlds) {
+			if ($name == $data['player']->iusername) {
+				continue;
+			}
+			foreach ($wlds as $wld) {
+				foreach ($wld as $config) {
+					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
+						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
+							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
+								$data['player']->sendChat("This is ".$name."'s protected area."); 
+								return false;
+							}
 						}
 					}
 				}
@@ -193,20 +195,21 @@ switch ($event) {
 		break; 
 	case 'player.block.break': 
 		$block =$data['target']; 
-		if ($block->getID() == 63 || $block->getID() == 68) {break;}
-		foreach ($this->config as $name => $w) {
-			foreach ($w as $config) {
-				if ($name == $data['player']->iusername) {
-					continue;
-				}
-				$x =$block->x; 
-				$y =$block->y; 
-				$z =$block->z; 
-				if ($config['min'][0] <= $x && $x <= $config['max'][0]) {
-					if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
-						if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
-							$data['player']->sendChat("This is ".$name."'s private area."); 
-							return false;
+		$x =$block->x; 
+		$y =$block->y; 
+		$z =$block->z; 
+		foreach ($this->config as $name => $wlds) {
+			if ($name == $data['player']->iusername) {
+				continue;
+			}
+			foreach ($wlds as $wld) {
+				foreach ($wld as $config) {
+					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
+						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
+							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
+								$data['player']->sendChat("This is ".$name."'s protected area."); 
+								return false;
+							}
 						}
 					}
 				}
@@ -215,21 +218,22 @@ switch ($event) {
 		return;
 		break; 
 	case 'player.block.place': 
-		if ($data['item']->getID() == 323) {break;}
 		$block =$data['block']; 
-		foreach ($this->config as $name => $w) {
-			foreach ($w as $config) {
-				if ($name == $data['player']->iusername) {
-					continue;
-				}
-				$x =$block->x; 
-				$y =$block->y; 
-				$z =$block->z; 
-				if ($config['min'][0] <= $x && $x <= $config['max'][0]) {
-					if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
-						if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
-							$data['player']->sendChat("This is ".$name."'s private area."); 
-							return false;
+		$x =$block->x; 
+		$y =$block->y; 
+		$z =$block->z; 
+		foreach ($this->config as $name => $wlds) {
+			if ($name == $data['player']->iusername) {
+				continue;
+			}
+			foreach ($wlds as $wld) {
+				foreach ($wld as $config) {
+					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
+						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
+							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
+								$data['player']->sendChat("This is ".$name."'s protected area."); 
+								return false;
+							}
 						}
 					}
 				}
@@ -256,7 +260,7 @@ public function writeConfig($data) {$this->api->plugin->writeYAML($this->path."c
 
 
 public function getProtectID($player, $world){
-		if(isset($this->config[$player][$world])){
+		if(isset($this->config[$player->iusername][$world])){
 			foreach ($this->config[$player][$world] as $config) {
 				$x =$player->entity->x;
 				$y =$player->entity->y; 
