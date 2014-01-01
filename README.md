@@ -11,6 +11,21 @@ If you disobey the rules above, you may recieve a law suit.
 
 Change Log: 
 
+   - 3.6.7 Alpha ( 2013/12/30 )
+      - Fixed the PMEssProtect bug
+      - Fixed the display text problems in PMEssProtect
+      - *HideNSeek Plugin still work with this update! 
+         (http://github.com/kvwang98/HideNSeek)
+  - 3.6.6 Alpha ( 2013/12/30 )
+      - Fixed the PMEssAPI Error
+      - Changed the time interval of updating the position when disguised as a block
+      - Added a function to CoreAPI
+        ( $api->pmess->undisguise(Player $player); )
+  - 3.6.5 Alpha ( 2013/12/29 )
+      - Added a function to CoreAPI
+        ( $api->pmess->disguiseAsBlock(Player $player, int $blockID); )
+      - Fixed player can do any commands when DISABLED GroupManager :O
+      - Added some code obfuscation due to prevent people read and steal my code. :D
   - 3.6.4 Alpha ( 2013/12/28 )
       - Added Multi-Protection
          (/protect, /protect set [Protection ID] , /unprotect [Protection ID])
