@@ -10,6 +10,9 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+   - 3.6.9 Alpha ( 2014/1/2 )
+      - Fixed PrimedTNT Disguise Permission Node (Issue 20 by @iksaku)
+      - Fixed PMEssProtect same area protect in all worlds(Issue 21 by @Georggi)
    - 3.6.8 Alpha ( 2014/1/1 )
       - Really fixed PMEssProtect bug(Last fix faild)
       - Made PMEssProtect area detection a little bit faster
