@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 3.6.8-Alpha
+                                     Package Version: 3.6.9-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,9 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 3.6.9 Alpha ( 2014/1/2 )
+      - Fixed PrimedTNT Disguise Permission Node (Issue 20 by @iksaku)
+      - Fixed PMEssProtect same area protect in all worlds(Issue 21 by @Georggi)
   - 3.6.8 Alpha ( 2014/1/1 )
       - Really fixed PMEssProtect bug(Last fix faild)
       - Made PMEssProtect area detection a little bit faster

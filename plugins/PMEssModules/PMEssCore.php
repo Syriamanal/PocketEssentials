@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=3.6.8-Alpha
+version=3.6.9-Alpha
 author=Kevin Wang
 class=PMEssCore
 apiversion=11
@@ -574,7 +574,7 @@ class PMEssCore implements Plugin{
 								if($this->api->session->sessions[$issuer->CID]["dMState"] or $this->api->session->sessions[$issuer->CID]["dPState"] or ($this->api->session->sessions[$issuer->CID]["dEState"] and $this->api->session->sessions[$issuer->CID]["dEType"] == 2)){
 									return("Please undisguise first. ");
 								}
-								if($this->api->perm->checkPerm($issuer->iusername, "pmess.disguisecraft.primedtnt") == false){
+								if($this->api->perm->checkPerm($issuer->iusername, "pmess.disguisecraft.ptnt") == false){
 									return("You are not allowed to \n disguise as a Primed TNT. ");
 								}
 								$this->api->session->sessions[$issuer->CID]["dEState"] = true;

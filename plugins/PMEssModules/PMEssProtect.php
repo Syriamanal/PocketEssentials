@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=3.6.8-Alpha
+version=3.6.9-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -179,7 +179,10 @@ switch ($event) {
 				continue;
 			}
 			foreach ($wlds as $wld) {
-				foreach ($wld as $config) {
+				foreach ($wlds as $wldName => $wld) {
+					if($wldName != $block->level->getName()){
+						continue;
+					}
 					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
 							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
@@ -202,7 +205,10 @@ switch ($event) {
 			if ($name == $data['player']->iusername) {
 				continue;
 			}
-			foreach ($wlds as $wld) {
+			foreach ($wlds as $wldName => $wld) {
+				if($wldName != $block->level->getName()){
+					continue;
+				}
 				foreach ($wld as $config) {
 					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
@@ -227,7 +233,10 @@ switch ($event) {
 				continue;
 			}
 			foreach ($wlds as $wld) {
-				foreach ($wld as $config) {
+				foreach ($wlds as $wldName => $wld) {
+					if($wldName != $block->level->getName()){
+						continue;
+					}
 					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
 							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
