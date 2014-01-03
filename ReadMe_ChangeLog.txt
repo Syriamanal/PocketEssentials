@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 3.6.9-Alpha
+                                     Package Version: 4.0.0-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,9 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.0.0 Alpha ( 2014/1/3 )
+      - Fixed PMEssLoader not loading FlyMode Module
+      - Fixed PMEssProtect crash bug after fixing (WTF, again! )
   - 4.0.0 Beta ( 2014/1/3 )
       - Added Fly Mode in Survival mode( /fly )
         (Look straight to fly straight, Look up to fly up, look down to fly down)

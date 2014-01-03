@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=4.0.0-Beta
+version=4.0.0-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -182,7 +182,7 @@ switch ($event) {
 				if($wldName != $block->level->getName()){
 					continue;
 				}
-				foreach($wld as $config)
+				foreach($wld as $config){
 					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
 							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
@@ -236,7 +236,7 @@ switch ($event) {
 				if($wldName != $block->level->getName()){
 					continue;
 				}
-				foreach($wld as $config)
+				foreach($wld as $config){
 					if($config['min'][0] <= $x && $x <= $config['max'][0]) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
 							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {

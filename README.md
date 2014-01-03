@@ -10,6 +10,13 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+  - 4.0.0 Alpha ( 2014/1/3 )
+      - Fixed PMEssLoader not loading FlyMode Module
+      - Fixed PMEssProtect crash bug after fixing (WTF, again! )
+  - 4.0.0 Beta ( 2014/1/3 )
+      - Added Fly Mode in Survival mode( /fly )
+        (Look straight to fly straight, Look up to fly up, look down to fly down)
+      - Fixed PMEssProtect error bug(Again O_o) (Issue 23 by @Georggi)
    - 3.6.9 Alpha ( 2014/1/2 )
       - Fixed PrimedTNT Disguise Permission Node (Issue 20 by @iksaku)
       - Fixed PMEssProtect same area protect in all worlds(Issue 21 by @Georggi)

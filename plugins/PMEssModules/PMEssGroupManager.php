@@ -5,7 +5,7 @@
 __PocketMine Plugin__
 name=PMEss-GroupManager
 description=PocketEssentials GroupManager
-version=4.0.0-Beta
+version=4.0.0-Alpha
 author=Kevin Wang
 class=PMEssGM
 apiversion=11

@@ -3,7 +3,7 @@
 __PocketMine Plugin__
 name=PMEssentials-RootLoader
 description=Load PocketEssentials Modules in Correct Order
-version=4.0.0-Beta
+version=4.0.0-Alpha
 author=Kevin Wang
 class=PMEssRootLoader
 apiversion=11
@@ -56,6 +56,7 @@ class PMEssRootLoader implements Plugin{
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssTPRequests.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssPowerTool.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssWorldSpawn.php");
+		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssFlyMode.php");
 		console(FORMAT_GREEN . "Loading external plugins based on PMEss... ");
 		$this->loadAllPMEssPlugins();
 		console(FORMAT_GREEN . "External plugins based on PMEss are loaded! ");
