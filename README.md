@@ -17,13 +17,13 @@ Change Log:
       - Added Fly Mode in Survival mode( /fly )
         (Look straight to fly straight, Look up to fly up, look down to fly down)
       - Fixed PMEssProtect error bug(Again O_o) (Issue 23 by @Georggi)
-   - 3.6.9 Alpha ( 2014/1/2 )
+  - 3.6.9 Alpha ( 2014/1/2 )
       - Fixed PrimedTNT Disguise Permission Node (Issue 20 by @iksaku)
       - Fixed PMEssProtect same area protect in all worlds(Issue 21 by @Georggi)
-   - 3.6.8 Alpha ( 2014/1/1 )
+  - 3.6.8 Alpha ( 2014/1/1 )
       - Really fixed PMEssProtect bug(Last fix faild)
       - Made PMEssProtect area detection a little bit faster
-   - 3.6.7 Alpha ( 2013/12/30 )
+  - 3.6.7 Alpha ( 2013/12/30 )
       - Fixed the PMEssProtect bug
       - Fixed the display text problems in PMEssProtect
       - *HideNSeek Plugin still work with this update! 
