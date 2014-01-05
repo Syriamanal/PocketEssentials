@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-WorldSpawn
-version=4.0.1-Alpha
+version=4.1.0-Alpha
 author=Kevin Wang
 class=PMEssWorldSpawn
 apiversion=11
@@ -40,8 +40,8 @@ class PMEssWorldSpawn implements Plugin{
 		switch(strtolower($cmd)){
 			case "setwspawn":
 				if(!($issuer instanceof Player)){return("Please run this command in-game. ");}
-				$issuer->entity->level->setSpawn(new Vector3($issuer->entity->x, $issuer->entity->y, $issuer->entity->z));
-				return("Spawn set for world: \n" . $issuer->level->getName());
+				$issuer->level->setSpawn(new Vector3((int)$issuer->entity->x, (int)$issuer->entity->y, (int)$issuer->entity->z));
+				return("Spawn set for world: " . $issuer->level->getName());
 				break;
 		}
 	}

@@ -39,8 +39,7 @@ class PMEssAPI{
 		if($this->server->api->session->sessions[$player->CID]["isVanished"] == false){
 			foreach($player->level->players as $p)
 			{
-				if(strtolower($player->eid) != strtolower($p->eid))
-				{
+				if($player->eid != $p->eid){
 					$p->dataPacket(MC_REMOVE_ENTITY, array(
 					"eid" => $player->eid
 					));
@@ -52,47 +51,23 @@ class PMEssAPI{
 			}
 		}else{
 		/*
-			if($this->server->api->session->sessions[$player->CID]["dPState"]){
-				$un = $this->server->api->session->sessions[$player->CID]["dPUsername"];
-			}else{
-				$un = $player->username;
-			}
 			
-			foreach($player->level->players as $p){
-				if(strtolower($player->eid) != strtolower($p->eid)){
-					$p->dataPacket(MC_ADD_PLAYER, array(
-						"clientID" => 0,
-						"username" => $un,
-						"eid" => $player->eid,
-						"x" => $player->entity->x,
-						"y" => $player->entity->y,
-						"z" => $player->entity->z,
-						"yaw" => 0,
-						"pitch" => 0,
-						"unknown1" => 0,
-						"unknown2" => 0,
-						"metadata" => $player->entity->getMetadata()));
-				}
-			}
 		*/
-			if($this->api->session->sessions[$player->CID]["isVanished"] == true){
-				foreach($player->entity->level->players as $p){
-					if($player->CID == $p->CID){continue;}
-					$p->dataPacket(MC_REMOVE_ENTITY, array(
-						"eid" => $player->entity->eid
-						));
-				}
-			}elseif($this->api->session->sessions[$player->CID]["dPState"] == true){
+			$this->server->api->session->sessions[$player->CID]["isVanished"] = false;
+			
+			if($this->api->session->sessions[$player->CID]["dPState"] == true){
 				foreach($player->entity->level->players as $p){
 					if($player->CID == $p->CID){continue;}
 					PMEssCore::recreateDPEntity($p, $player);
 				}
-			}elseif($this->api->session->sessions[$player->CID]["dMState"]){
+			}
+			if($this->api->session->sessions[$player->CID]["dMState"]){
 				foreach($player->entity->level->players as $p){
 					if($player->CID == $p->CID){continue;}
 					PMEssCore::recreateEntityToMob($p, $this->api->session->sessions[$player->CID]["dMData"], $player);
 				}
-			}elseif($this->api->session->sessions[$player->CID]["dEState"]){
+			}
+			if($this->api->session->sessions[$player->CID]["dEState"]){
 				if($this->api->session->sessions[$player->CID]["dEType"] == 1){
 					foreach($player->entity->level->players as $p){
 						if($player->CID == $p->CID){continue;}
@@ -105,10 +80,31 @@ class PMEssAPI{
 					}
 				}
 			}
+			if($this->api->session->sessions[$player->CID]["dPState"] == false and $this->api->session->sessions[$player->CID]["dMState"] == false and $this->api->session->sessions[$player->CID]["dEState"] == false){
+				if($this->server->api->session->sessions[$player->CID]["dPState"]){
+					$un = $this->server->api->session->sessions[$player->CID]["dPUsername"];
+				}else{
+					$un = $player->username;
+				}
+				
+				foreach($player->level->players as $p){
+					if($player->eid != $p->eid){
+						$p->dataPacket(MC_ADD_PLAYER, array(
+							"clientID" => 0,
+							"username" => $un,
+							"eid" => $player->eid,
+							"x" => $player->entity->x,
+							"y" => $player->entity->y,
+							"z" => $player->entity->z,
+							"yaw" => 0,
+							"pitch" => 0,
+							"unknown1" => 0,
+							"unknown2" => 0,
+							"metadata" => $player->entity->getMetadata()));
+					}
+				}
+			}
 		
-		
-		
-			$this->server->api->session->sessions[$player->CID]["isVanished"] = false;
 			if($silenced == false){
 				$player->sendChat("You are visible again! ");
 			}

@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-PowerTool
-version=4.0.1-Alpha
+version=4.1.0-Alpha
 author=Kevin Wang
 class=PMEssPowerTool
 apiversion=11

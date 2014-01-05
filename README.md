@@ -10,6 +10,10 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+  - 4.1.0 Alpha ( 2014/1/5 )
+      - Added a new module: PMEssWarps ( /warp, /setwarp, /delwarp )
+      - Fixed the SetWorldSpawn module
+      - Fixed player can not un-vanish
   - 4.0.1 Alpha ( 2014/1/3 )
       - Fixed ChestProtect bug
       - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" )

@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.0.1-Alpha
+                                     Package Version: 4.1.0-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,10 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.1.0 Alpha ( 2014/1/5 )
+      - Added a new module: PMEssWarps ( /warp, /setwarp, /delwarp )
+      - Fixed the SetWorldSpawn module
+      - Fixed player can not un-vanish
   - 4.0.1 Alpha ( 2014/1/3 )
       - Fixed ChestProtect bug
       - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" )
