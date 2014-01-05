@@ -4,7 +4,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-ChestLock
-version=4.0.0-Alpha
+version=4.0.1-Alpha
 author=Kevin Wang
 class=PMEssChestLock
 apiversion=11
@@ -80,7 +80,7 @@ class PMEssChestLock implements Plugin{
 				$cfgBlk = new Config($cfgBlkAddr, CONFIG_YAML, array());
 				$owner = $cfgBlk->get("LockedBy");
 				unset($cfgBlk);
-				if((strtolower($issuer->iusername) == strtolower($owner) and $owner != false) or $issuer->checkPerm("pmess.chestlock.canunlockothers")){
+				if((strtolower($issuer->iusername) == strtolower($owner) and $owner != false) or $this->api->perm->checkPerm($issuer->iusername, "pmess.chestlock.canunlockothers")){
 					unlink($cfgBlkAddr);
 					return("Chest unlocked! ");
 				}else{

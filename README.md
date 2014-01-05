@@ -10,6 +10,9 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+  - 4.0.1 Alpha ( 2014/1/3 )
+      - Fixed ChestProtect bug
+      - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" )
   - 4.0.0 Alpha ( 2014/1/3 )
       - Fixed PMEssLoader not loading FlyMode Module
       - Fixed PMEssProtect crash bug after fixing (WTF, again! )

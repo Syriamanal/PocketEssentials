@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=4.0.0-Alpha
+version=4.0.1-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -30,9 +30,11 @@ $this->api =$api; $this->pos1 =array(); $this->pos2 =array(); $this->level =arra
 }
 public function init() {
 	$this->createConfig(); 
+	$this->api->session->setDefaultData("PMEssProtectBypass", false);
 	$this->api->console->register("unprotect", "Unprotects your private area.", array($this, "dsgf54ew5"));
 	$this->api->console->register("selworld", "Select whole world to protect.", array($this, "dsgf54ew5")); 
 	$this->api->console->register("protect", "Protects the area for you.", array($this, "dsgf54ew5")); 
+	$this->api->console->register("pbypass", "Bypass protections.", array($this, "dsgf54ew5")); 
 	$this->api->addHandler("player.block.touch", array($this, "b7ds5g4"), 7); 
 	$this->api->addHandler("player.block.place", array($this, "b7ds5g4"), 7); 
 	$this->api->addHandler("player.block.break", array($this, "b7ds5g4"), 7); 
@@ -45,6 +47,19 @@ public function dsgf54ew5($cmd, $params, $issuer, $alias){
 	$output =""; 
 	if ($issuer instanceof Player) {$user =$issuer->iusername; 
 		switch($cmd){
+			case "pbypass":
+				if($this->api->perm->checkPerm($issuer->iusername, "pmess.protect.bypass")){
+					if($this->api->session->sessions[$issuer->CID]["PMEssProtectBypass"] == false){
+						$this->api->session->sessions[$issuer->CID]["PMEssProtectBypass"] = true;
+						return("Protection bypass enabled. ");
+					}else{
+						$this->api->session->sessions[$issuer->CID]["PMEssProtectBypass"] = false;
+						return("Protection bypass disabled. ");
+					}
+				}else{
+					return("You also need to have this permission node: \n * pmess.protect.bypass");
+				}
+				break;
 			//Protect whole world
 			case "selworld":
 				if($this->api->ban->isOp($issuer->iusername) == false){return("This command can only use by OPs. ");}
@@ -170,6 +185,7 @@ return $output;
 public function b7ds5g4(&$data, $event){
 switch ($event) {
 	case "player.block.touch":
+		if($this->api->session->sessions[$data["player"]->CID]["PMEssProtectBypass"]){return;}
 		$block = $data["target"];
 		$x =$block->x; 
 		$y =$block->y; 
@@ -197,6 +213,7 @@ switch ($event) {
 		return;
 		break; 
 	case 'player.block.break': 
+		if($this->api->session->sessions[$data["player"]->CID]["PMEssProtectBypass"]){return;}
 		$block =$data['target']; 
 		$x =$block->x; 
 		$y =$block->y; 
@@ -224,6 +241,7 @@ switch ($event) {
 		return;
 		break; 
 	case 'player.block.place': 
+		if($this->api->session->sessions[$data["player"]->CID]["PMEssProtectBypass"]){return;}
 		$block =$data['block']; 
 		$x =$block->x; 
 		$y =$block->y; 

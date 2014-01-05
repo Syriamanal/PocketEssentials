@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=FlyMode
-version=4.0.0-Alpha
+version=4.0.1-Alpha
 author=Kevin Wang
 class=KVFlyMode
 apiversion=11
@@ -119,6 +119,9 @@ class KVFlyMode implements Plugin{
 		$size = 4;
 		
 		if(!isset($this->api->session->sessions[$issuer->CID]["FlyModeData"])){
+			if($issuer->gamemode == 0x01){
+				return("You can't enable fly mode in creative mode. ");
+			}
 			$this->api->session->sessions[$issuer->CID]["FlyModeData"] = array(
 				"size" => $size,
 				"blocks" => array(),
