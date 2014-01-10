@@ -24,8 +24,8 @@ Change Log:
       - Fixed the SetWorldSpawn module
       - Fixed player can not un-vanish
   - 4.0.1 Alpha ( 2014/1/3 )
-      - Fixed ChestProtect bug
-      - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" )
+      - Fixed ChestProtect bug (Issue #28 by @Georggi)
+      - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" ) (Suggested by @Georggi on GitHub Issue #27)
   - 4.0.0 Alpha ( 2014/1/3 )
       - Fixed PMEssLoader not loading FlyMode Module
       - Fixed PMEssProtect crash bug after fixing (WTF, again! )
