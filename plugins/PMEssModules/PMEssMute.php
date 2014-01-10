@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Mute
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssMute
 apiversion=11
@@ -60,7 +60,7 @@ class PMEssMute implements Plugin{
 				}
 				$muteCfg = new Config($this->cfgDir."/". strtolower($username) .".yml", CONFIG_YAML, array("Username" => $username, "Status" => true));
 				unset($muteCfg);
-				return("Target is now muted. ");
+				return($username . " is now muted. ");
 				break;
 			case "unmute":
 				if(count($arg) != 1){
@@ -76,7 +76,7 @@ class PMEssMute implements Plugin{
 					return("Target player isn't muted. ");
 				}
 				unlink($this->cfgDir."/". strtolower($username) .".yml");
-				return("Target is now unmuted. ");
+				return($username . " is now unmuted. ");
 		}
 	}
 	

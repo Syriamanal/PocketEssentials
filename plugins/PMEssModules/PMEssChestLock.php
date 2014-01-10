@@ -4,7 +4,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-ChestLock
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssChestLock
 apiversion=11
@@ -25,6 +25,7 @@ apiversion=11
 
 class PMEssChestLock implements Plugin{
 	private $api, $server;
+    private $cfgPath;
 	public function __construct(ServerAPI $api, $server = false){
 		$this->api = $api;
 		$this->server = ServerAPI::request();
@@ -32,10 +33,10 @@ class PMEssChestLock implements Plugin{
 
 
 	public function init(){
-		define("CFGPATH", $this->api->plugin->configPath($this));
+        $this->cfgPath = $this->api->plugin->configPath($this);
 		$this->api->addHandler("player.block.touch", array($this, "hdlTouchBreak"), 6);
 		$this->api->addHandler("player.block.break", array($this, "hdlBlockBreak"), 6);
-		$this->api->file->SafeCreateFolder(CFGPATH."Worlds");
+		$this->api->file->SafeCreateFolder($this->cfgPath."Worlds");
 		$this->api->console->register("lock", "Lock a chest. Stand on a chest to use it. ", array($this, "handleCommand"));
 		$this->api->console->register("unlock", "Unlock a chest. Stand on a chest to use it. ", array($this, "handleCommand"));
 		$this->api->ban->cmdWhitelist("lock");
@@ -54,8 +55,8 @@ class PMEssChestLock implements Plugin{
 				if($blk->getID() != 54){return("Please stand on a chest to use this command. ");}
 				//Get world folder
 				$wName = strtolower($issuer->level->getName());
-				$this->api->file->SafeCreateFolder(CFGPATH."Worlds"."/".$wName);
-				$wFolder=CFGPATH . "Worlds/" . $wName . "/";
+				$this->api->file->SafeCreateFolder($this->cfgPath."Worlds"."/".$wName);
+				$wFolder=$this->cfgPath . "Worlds/" . $wName . "/";
 				$cfgBlkAddr = $wFolder . $x . "." . $y . "." . $z . ".yml";
 				if(file_exists($cfgBlkAddr)){return("Block is already locked. ");}
 				$cfgBlk = new Config($cfgBlkAddr, CONFIG_YAML, array());
@@ -73,8 +74,8 @@ class PMEssChestLock implements Plugin{
 				if($blk->getID() != 54){return("Please stand on a chest to use this command. ");}
 				//Get world folder
 				$wName = strtolower($issuer->level->getName());
-				$this->api->file->SafeCreateFolder(CFGPATH."Worlds"."/".$wName);
-				$wFolder=CFGPATH . "Worlds/" . $wName . "/";
+				$this->api->file->SafeCreateFolder($this->cfgPath."Worlds"."/".$wName);
+				$wFolder=$this->cfgPath . "Worlds/" . $wName . "/";
 				$cfgBlkAddr = $wFolder . $x . "." . $y . "." . $z . ".yml";
 				if(!(file_exists($cfgBlkAddr))){return("Block is not locked. ");}
 				$cfgBlk = new Config($cfgBlkAddr, CONFIG_YAML, array());
@@ -97,7 +98,7 @@ class PMEssChestLock implements Plugin{
 		$z = intval($data["z"]);
 		$uName = strtolower($data["username"]);
 		$wName = strtolower($data["world"]);
-		$wFolder = CFGPATH . "Worlds/" . strtolower($wName) . "/";
+		$wFolder = $this->cfgPath . "Worlds/" . strtolower($wName) . "/";
 		$cfgBlkAddr = $wFolder . $x . "." . $y . "." . $z . ".yml";
 		if(!(file_exists($cfgBlkAddr))){return(true);}
 		$cfgBlk = new Config($cfgBlkAddr, CONFIG_YAML, array());
@@ -115,7 +116,7 @@ class PMEssChestLock implements Plugin{
 		$x = $data["target"]->x;
 		$y = $data["target"]->y;
 		$z = $data["target"]->z;
-		$wFolder = CFGPATH . "Worlds/" . strtolower($wName) . "/";
+		$wFolder = $this->cfgPath . "Worlds/" . strtolower($wName) . "/";
 		$cfgBlkAddr = $wFolder . $x . "." . $y . "." . $z . ".yml";
 		if(!(file_exists($cfgBlkAddr))){return(true);}
 		$data["player"]->sendChat("This chest is locked so you can't break it. \nStand on the chest and do: \n/unlock");
@@ -129,6 +130,7 @@ class PMEssChestLock implements Plugin{
 		$req["z"] = $data["target"]->z;
 		$req["world"] = strtolower($data["target"]->level->getName());
 		$req["username"] = strtolower($data["player"]->iusername);
+        return($this->hdlCheckPerm($req));
 	}
 	
 	public function __destruct(){

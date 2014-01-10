@@ -10,6 +10,15 @@ No comercial use of this software.
 If you disobey the rules above, you may recieve a law suit. 
 
 Change Log: 
+  - 4.1.1 Alpha ( 2014/1/10 )
+      - Added a new permission that make a player can not be banned(Issuer 42 by @Georggi)
+        ( See ReadMe_PermissionNodes.txt )
+      - Added a new event when player touchs protected signs
+        (player.block.touch.protected)
+      - Added "/wlist" to list all worlds (PermNode: &.wlist)
+      - Fixed the PMEssWarp text(mis-typed word) bug
+      - Fixed SuperSword error bug (Issue 38 by @Georggi)
+      - Fixed ChestLock (Issue 35 by @Georggi)
   - 4.1.0 Alpha ( 2014/1/5 )
       - Added a new module: PMEssWarps ( /warp, /setwarp, /delwarp )
       - Fixed the SetWorldSpawn module

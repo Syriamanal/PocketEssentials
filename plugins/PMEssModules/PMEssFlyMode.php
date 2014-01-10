@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-FlyMode
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=KVFlyMode
 apiversion=11
@@ -36,7 +36,9 @@ class KVFlyMode implements Plugin{
 			case "entity.health.change":
 				if(!($data["entity"]->player instanceof Player)){return;}
 				if(isset($this->api->session->sessions[$data["entity"]->player->CID]["FlyModeData"])){
-					return(false);
+                    if(is_array($this->api->session->sessions[$data["entity"]->player->CID]["FlyModeData"])){
+                        return(false);
+                    }
 				}
 				break;
 			case "player.move":
@@ -49,7 +51,7 @@ class KVFlyMode implements Plugin{
 				break;
 			case "player.block.place.invalid":
 				if(isset($this->api->session->sessions[$data["player"]->CID]["FlyModeData"])){
-					if(isset($this->api->session->sessions[$data["player"]->CID]["FlyModeData"]["blocks"][$data["target"]->x.".".$data["target"]->y.".".$data["target"]->z])){
+                    if(isset($this->api->session->sessions[$data["player"]->CID]["FlyModeData"]["blocks"][$data["target"]->x.".".$data["target"]->y.".".$data["target"]->z])){
 						return true;
 					}
 				}

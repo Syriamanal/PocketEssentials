@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Protect
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssProtect
 apiversion=11
@@ -203,6 +203,7 @@ switch ($event) {
 						if ($config['min'][1] <= $y && $y <= $config['max'][1]) {
 							if ($config['min'][2] <= $z && $z <= $config['max'][2]) {
 								$data['player']->sendChat("This is ".$name."'s protected area."); 
+                                $this->api->dhandle("player.block.touch.protected", $data);
 								return false;
 							}
 						}

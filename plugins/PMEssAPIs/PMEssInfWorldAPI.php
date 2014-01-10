@@ -28,6 +28,7 @@ class PMEssInfWorldAPI{
 		$this->server->api->console->register("world", "Worlds command, aliased as /w , too. ", array($this, "commandHandler"));
 		$this->server->api->ban->cmdWhitelist("world");
 		$this->server->api->console->alias("w", "world");
+        $this->server->api->console->alias("wlist", "w list");  //You just need to give player &.wlist
     }
 
     public function loadAllWorlds() {

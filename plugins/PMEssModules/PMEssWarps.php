@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-Warps
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssWarps
 apiversion=11
@@ -51,8 +51,8 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/warp <Name>");
 				}
-				if(!($this->checkVaild($arg[0]))){
-					return("Invaild warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
+				if(!($this->checkValid($arg[0]))){
+					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
 				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(!(file_exists($cfgPath))){
@@ -74,8 +74,8 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/setwarp <Name>");
 				}
-				if(!($this->checkVaild($arg[0]))){
-					return("Invaild warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
+				if(!($this->checkValid($arg[0]))){
+					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
 				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(file_exists($cfgPath)){
@@ -95,8 +95,8 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/delwarp <Name>");
 				}
-				if(!($this->checkVaild($arg[0]))){
-					return("Invaild warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
+				if(!($this->checkValid($arg[0]))){
+					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
 				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(!(file_exists($cfgPath))){
@@ -108,7 +108,7 @@ class PMEssWarps implements Plugin{
 		}
 	}
 	
-	public function checkVaild($s){
+	public function checkValid($s){
 		if(ereg("^[0-9a-zA-Z\_]*$",$s)){
 			return(true);
 		}else{

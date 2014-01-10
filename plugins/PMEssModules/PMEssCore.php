@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssCore
 apiversion=11
@@ -50,6 +50,7 @@ class PMEssCore implements Plugin{
 */	
 	
 		$this->api->session->setDefaultData("superIS", "none"); 
+		$this->api->session->setDefaultData("superIS_State", false); 
 
 		$this->api->session->setDefaultData("isVanished", false); 
 		$this->api->session->setDefaultData("chkedDisguise", false); 
@@ -67,6 +68,7 @@ class PMEssCore implements Plugin{
 		
 		$this->api->schedule(5, array($this, "timerMoveEntity"), array(), true);
 		
+        $this->api->addHandler("api.ban.check", array($this, "handleEvent"), 65535);
 		$this->api->addHandler("player.chat", array($this, "handleEvent"), 65535);
 		$this->api->addHandler("player.move", array($this, "handleEvent"), 1);
 		$this->api->addHandler("player.quit", array($this, "handleEvent"), 1);
@@ -114,6 +116,13 @@ class PMEssCore implements Plugin{
 	}
 	public function handleEvent(&$data, $event){
 		switch($event){
+            case "api.ban.check":
+                if($this->api->perm->checkPerm($data,"pmess.ban.deny")){
+                    return(false);
+                }else{
+                    return;
+                }
+                break;
 			case "player.move":
 				if($this->api->session->sessions[$data->player->CID]["chkedDisguise"] == false){
 					foreach($data->level->players as $p){
@@ -187,9 +196,9 @@ class PMEssCore implements Plugin{
 				}
 				break;
 			case "player.interact":
-				if($data["entity"]->class != ENTITY_PLAYER){return(null);}
-				if($data["entity"]->player->getSlot($data["entity"]->player->slot)->getID() != IRON_SWORD){return(null);}
-				if(!($this->api->session->sessions[$data["entity"]->player->CID]["superIS_State"])){return(null);}
+				if($data["entity"]->class != ENTITY_PLAYER){return;}
+				if($data["entity"]->player->getSlot($data["entity"]->player->slot)->getID() != IRON_SWORD){return;}
+				if(!($this->api->session->sessions[$data["entity"]->player->CID]["superIS_State"])){return;}
 				$cid = $data["entity"]->player->CID;
 				if($this->api->session->sessions[$cid]["superIS"] == "kill"){
 					if($data["targetentity"] instanceof Entity){
@@ -262,12 +271,16 @@ class PMEssCore implements Plugin{
 						$output .= "Changes: \n";
 						if(strtolower($arg[0]) == "kill"){
 							$this->api->sessions[$issuer->CID]["superIS"] = "kill";
+                            $this->api->sessions[$issuer->CID]["superIS_State"] = true;
 							$output .= "One-Hit Kill Enabled! \n Type \"/ssw stop\" to return to \nnormal sword. ";
 						}elseif(strtolower($arg[0]) == "fire"){
 							$this->api->sessions[$issuer->CID]["superIS"] = "fire";
+                            $this->api->sessions[$issuer->CID]["superIS_State"] = true;
 							$output .= "Fire Sword Enabled! \n Type \"/ssw stop\" to return to \nnormal sword. ";
 						}elseif(strtolower($arg[0]) == "stop"){
 							$this->api->sessions[$issuer->CID]["superIS"] = "none";
+                            $this->api->sessions[$issuer->CID]["superIS_State"] = false;
+                            
 							$output .= "Super Sword Disabled! ";
 						}
 						break;

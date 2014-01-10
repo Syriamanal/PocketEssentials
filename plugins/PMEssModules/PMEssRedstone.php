@@ -4,7 +4,7 @@
 __PocketMine Plugin__
 name=PMEssentials-Redstone
 description=Redstone System
-version=4.1.0-Alpha
+version=4.1.1-Alpha
 author=Kevin Wang
 class=PMEssRedstone
 apiversion=11
@@ -140,6 +140,8 @@ class PMEssRedstone implements Plugin{
 							break;
 						case 63:
 							case 68:$sign =$this->api->tile->get(new Position($block->x, $block->y, $block->z, $this->player->level));
+								if(!($sign instanceof Tile)){return;}
+								if($sign->class != TILE_SIGN){return;}
 								$lines =$sign->getText();
 								$text =(string)($lines[0] .$lines[1] .$lines[2] .$lines[3]);
 								$blockunder =$block->getSide(0);
