@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.1-Alpha
+                                     Package Version: 4.1.2-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,8 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.1.2 Alpha ( 2014/1/13 )
+      - Fixed Redstone crash bug (Issue 46 by @Georggi)
   - 4.1.1 Alpha ( 2014/1/10 )
       - Added a new permission that make a player can not be banned(Issuer 42 by @Georggi)
         ( See ReadMe_PermissionNodes.txt )
@@ -26,7 +28,7 @@ What's New:
       - Fixed the SetWorldSpawn module
       - Fixed player can not un-vanish
   - 4.0.1 Alpha ( 2014/1/3 )
-      - Fixed ChestProtect bug
+      - Fixed ChestProtect bug (Issue #28 by @Georggi)
       - Added Protection Bypass Mode ( /pbypass, PermNode: "&.pbypass" and "pmess.protect.bypass" )
   - 4.0.0 Alpha ( 2014/1/3 )
       - Fixed PMEssLoader not loading FlyMode Module

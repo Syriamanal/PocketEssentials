@@ -4,7 +4,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-ChestLock
-version=4.1.1-Alpha
+version=4.1.2-Alpha
 author=Kevin Wang
 class=PMEssChestLock
 apiversion=11
@@ -130,7 +130,7 @@ class PMEssChestLock implements Plugin{
 		$req["z"] = $data["target"]->z;
 		$req["world"] = strtolower($data["target"]->level->getName());
 		$req["username"] = strtolower($data["player"]->iusername);
-        return($this->hdlCheckPerm($req));
+        return($this->hdlCheckPerm($req, "pmess.chestlock.chkperm"));
 	}
 	
 	public function __destruct(){

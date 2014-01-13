@@ -4,7 +4,7 @@
 __PocketMine Plugin__
 name=PMEssentials-Redstone
 description=Redstone System
-version=4.1.1-Alpha
+version=4.1.2-Alpha
 author=Kevin Wang
 class=PMEssRedstone
 apiversion=11
@@ -100,6 +100,7 @@ class PMEssRedstone implements Plugin{
 		}
 	}
 	public function redstoneupdate($target){
+        if(!($target instanceof Player)){return;}
 		$x =$target->x;
 		$y =$target->y;
 		$z =$target->z;
