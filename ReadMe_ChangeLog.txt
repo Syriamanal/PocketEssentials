@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.2-Alpha
+                                     Package Version: 4.1.3-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,8 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.1.3 Alpha ( 2014/1/8 )
+      - Supported API 12
   - 4.1.2 Alpha ( 2014/1/13 )
       - Fixed Redstone crash bug (Issue 46 by @Georggi)
   - 4.1.1 Alpha ( 2014/1/10 )

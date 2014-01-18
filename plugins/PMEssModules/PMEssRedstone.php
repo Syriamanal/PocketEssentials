@@ -4,10 +4,10 @@
 __PocketMine Plugin__
 name=PMEssentials-Redstone
 description=Redstone System
-version=4.1.2-Alpha
+version=4.1.3-Alpha
 author=Kevin Wang
 class=PMEssRedstone
-apiversion=11
+apiversion=12
 */
 
 class PMEssRedstone implements Plugin{
