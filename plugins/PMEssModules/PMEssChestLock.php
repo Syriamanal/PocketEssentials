@@ -7,7 +7,7 @@ name=PocketEssentials-ChestLock
 version=4.1.3-Alpha
 author=Kevin Wang
 class=PMEssChestLock
-apiversion=12
+apiversion=12 
 */
 
 /*   Built-In Permission Node(s): 
