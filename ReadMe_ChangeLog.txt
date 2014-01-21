@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.3-Alpha
+                                     Package Version: 4.1.4-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,8 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.1.4 Alpha ( 2014/1/22 )
+      - Fixed PMEssProtect module bug. (Issue 51 by @Hetal728)
   - 4.1.3 Alpha ( 2014/1/8 )
       - Supported API 12
   - 4.1.2 Alpha ( 2014/1/13 )
