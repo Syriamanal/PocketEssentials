@@ -355,7 +355,7 @@ class PMEssCore implements Plugin{
 				}
 				if(count($arg) == 0)
 				{
-					return("[Kevin's Vanish Manager]\n================\n* list - Get a vanished poeple list. \n* get - Get a player vanish state. \n* set - Set somebody vanish state. \n================");
+					return("[Kevin's Vanish Manager]\n================\n* list - Get a vanished people list. \n* get - Get a player vanish state. \n* set - Set somebody vanish state. \n================");
 				}
 				if(count($arg) == 1)
 				{
