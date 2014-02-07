@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.5
+                                     Package Version: 4.1.6-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,9 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 4.1.6 Alpha ( 2014/2/7 )
+      - Added $api->pmess->SendBlockUpdateRAW(); method in PMEssAPI
+        (There will be a HUGE update after this! )
   - 4.1.5 Alpha ( 2014/2/6 )
       - Added Sign things(Warp, World, Free and Spawn signs. )
         (With new PermissionNodes. )
