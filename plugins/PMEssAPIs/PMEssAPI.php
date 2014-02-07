@@ -192,12 +192,12 @@ class PMEssAPI{
 		}
 	}
 	
-	public function SendBlockUpdateRAW($pos, $block){
+	public function sendBlockUpdateRAW($pos, $block){
 		if(!($pos instanceof Position) or !($block instanceof Block)){return(false);}
 		$this->server->api->player->broadcastPacket($this->server->api->player->getAll($pos->level), MC_UPDATE_BLOCK, array(
-			"x" => $block->x,
-			"y" => $block->y,
-			"z" => $block->z,
+			"x" => $pos->x,
+			"y" => $pos->y,
+			"z" => $pos->z,
 			"block" => $block->getID(),
 			"meta" => $block->getMetadata()
 		));

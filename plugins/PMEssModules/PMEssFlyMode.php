@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-FlyMode
-version=4.1.6-Alpha
+version=4.1.7-Alpha
 author=Kevin Wang
 class=KVFlyMode
 apiversion=11,12

@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-WorldSpawn
-version=4.1.6-Alpha
+version=4.1.7-Alpha
 author=Kevin Wang
 class=PMEssWorldSpawn
 apiversion=11,12
