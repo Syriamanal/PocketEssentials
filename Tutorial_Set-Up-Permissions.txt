@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.4-Alpha
+                                     Package Version: 4.1.5
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -27,6 +27,9 @@ Config Samples(You can use them directly or customize them):
 Core: 
   1: pmess.vanish.use = Allow to vanish. ( Also need to add "&.v" permission node)
 
+Signs: 
+  1: pmess.signs.use = Allow to use the PMEssSigns(Such as "[Warp]", "[Free]", etc.)
+  2: pmess.signs.create = Allow to create PMEssSigns
 Mute: 
   1: pmess.mute.nomuting = Player can not be muted. 
 

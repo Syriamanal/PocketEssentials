@@ -3,10 +3,10 @@
 __PocketMine Plugin__
 name=PMEssentials-RootLoader
 description=Load PocketEssentials Modules in Correct Order
-version=4.1.4-Alpha
+version=4.1.5-Alpha
 author=Kevin Wang
 class=PMEssRootLoader
-apiversion=12
+apiversion=11,12
 */
 
 /* 
@@ -35,6 +35,7 @@ class PMEssRootLoader implements Plugin{
 		$this->api->loadAPI("file", "PMEssFileAPI", FILE_PATH . "plugins/PMEssAPIs/");
 		$this->api->loadAPI("perm", "PMEssPermAPI", FILE_PATH . "plugins/PMEssAPIs/");
 		$this->api->loadAPI("session", "PMEssSessionAPI", FILE_PATH . "plugins/PMEssAPIs/");
+		$this->api->loadAPI("warp", "PMEssWarpAPI", FILE_PATH . "plugins/PMEssAPIs/");
 		$this->api->pmess->init();
 		$this->api->infworld->init();
 		$this->api->file->init();
@@ -49,6 +50,7 @@ class PMEssRootLoader implements Plugin{
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssGroupManager.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssHome.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssWarps.php");
+		$this->api->warp->init();
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssICU.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssMute.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssPortals.php");
@@ -58,6 +60,7 @@ class PMEssRootLoader implements Plugin{
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssPowerTool.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssWorldSpawn.php");
 		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssFlyMode.php");
+		$this->api->plugin->load(FILE_PATH . "plugins/PMEssModules/PMEssSigns.php");
 		console(FORMAT_GREEN . "Loading external plugins based on PMEss... ");
 		$this->loadAllPMEssPlugins();
 		console(FORMAT_GREEN . "External plugins based on PMEss are loaded! ");

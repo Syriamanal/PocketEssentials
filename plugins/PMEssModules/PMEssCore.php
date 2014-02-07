@@ -3,10 +3,10 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=4.1.4-Alpha
+version=4.1.5-Alpha
 author=Kevin Wang
 class=PMEssCore
-apiversion=12
+apiversion=11,12
 */
 
 /* 
@@ -355,7 +355,7 @@ class PMEssCore implements Plugin{
 				}
 				if(count($arg) == 0)
 				{
-					return("[Kevin's Vanish Manager]\n================\n* list - Get a vanished people list. \n* get - Get a player vanish state. \n* set - Set somebody vanish state. \n================");
+					return("[Kevin's Vanish Manager]\n================\n* list - Get a vanished poeple list. \n* get - Get a player vanish state. \n* set - Set somebody vanish state. \n================");
 				}
 				if(count($arg) == 1)
 				{

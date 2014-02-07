@@ -2,10 +2,10 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-Warps
-version=4.1.4-Alpha
+version=4.1.5-Alpha
 author=Kevin Wang
 class=PMEssWarps
-apiversion=12
+apiversion=11,12
 */
 
 /* 
@@ -51,9 +51,6 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/warp <Name>");
 				}
-				if(!($this->checkValid($arg[0]))){
-					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
-				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(!(file_exists($cfgPath))){
 					return("Warp doesn't exist. ");
@@ -74,9 +71,6 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/setwarp <Name>");
 				}
-				if(!($this->checkValid($arg[0]))){
-					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
-				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(file_exists($cfgPath)){
 					return("Warp already exists. ");
@@ -95,9 +89,6 @@ class PMEssWarps implements Plugin{
 				if(count($arg) != 1){
 					return("Usage: \n/delwarp <Name>");
 				}
-				if(!($this->checkValid($arg[0]))){
-					return("Invalid warp name. \nIt can only include: \n A-Z, a-z, 0-9. ");
-				}
 				$cfgPath = $this->dirConfig . "/" . strtolower($arg[0]) . ".yml";
 				if(!(file_exists($cfgPath))){
 					return("Warp doesn't exist. ");
@@ -108,12 +99,20 @@ class PMEssWarps implements Plugin{
 		}
 	}
 	
-	public function checkValid($s){
-		if(ereg("^[0-9a-zA-Z\_]*$",$s)){
-			return(true);
-		}else{
+	public function getWarp($warpName){
+		$cfgPath = $this->dirConfig . "/" . strtolower($warpName) . ".yml";
+		if(!(file_exists($cfgPath))){
 			return(false);
 		}
+		$cfg = new Config($cfgPath, CONFIG_YAML, array());
+		$lv = $this->api->level->get($cfg->get("LevelName"));
+		if(!($lv instanceof Level)){
+			return(false);
+		}
+		$x = (int) $cfg->get("PositionX");
+		$y = (int) $cfg->get("PositionY");
+		$z = (int) $cfg->get("PositionZ");
+		return(new Position($x, $y, $z, $lv));
 	}
 	
 }
