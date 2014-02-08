@@ -4,7 +4,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-ChestLock
-version=4.1.7-Alpha
+version=4.1.8-Alpha
 author=Kevin Wang
 class=PMEssChestLock
 apiversion=11,12

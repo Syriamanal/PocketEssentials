@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Signs
-version=4.1.7-Alpha
+version=4.1.8-Alpha
 author=Kevin Wang
 class=PMEssSigns
 apiversion=11,12
@@ -94,7 +94,7 @@ class PMEssSigns implements Plugin{
 	public function handleSignTextChangeEvents(&$data, $event){
 		if(!($data instanceof Tile)){return;}
 		if($data->class != TILE_SIGN){return;}
-		if($data->data["Text1"] != "[warp]" and $data->data["Text1"] != "[free]" and $data->data["Text1"] != "[world]" and $data->data["Text1"] != "[spawn]"){
+		if(strtolower($data->data["Text1"]) != "[warp]" and strtolower($data->data["Text1"]) != "[free]" and strtolower($data->data["Text1"]) != "[world]" and strtolower($data->data["Text1"]) != "[spawn]"){
 			return;
 		}
 		if($this->api->perm->checkPerm($data->data["creator"], "pmess.signs.create")){return;}

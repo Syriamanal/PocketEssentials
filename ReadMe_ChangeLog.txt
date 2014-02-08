@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.7-Alpha
+                                     Package Version: 4.1.8-Alpha
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,7 +12,10 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
-  - 4.1.7 Alpha ( 2017/2/8 )
+  - 4.1.8 Alpha ( 2014/2/8 )
+      - Fixed the signs case bug
+        (If you don't update, players can type [Free] instead of [free] to make free signs)
+  - 4.1.7 Alpha ( 2014/2/8 )
       - Fixed the API bugs in the last update
   - 4.1.6 Alpha ( 2014/2/7 )
       - Added $api->pmess->SendBlockUpdateRAW(); method in PMEssAPI
