@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Home
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssHome
 apiversion=11,12
@@ -36,10 +36,6 @@ class PMEssHome implements Plugin{
 		$this->api->ban->cmdWhitelist("sethome");
 	}
 	
-	public function __destruct(){
-		$this->homeConfig->save();
-	}
-	
 	public function handleCommand($cmd, $arg, $issuer, $alias){
 		switch(strtolower($cmd)){
 			case "home":
@@ -67,5 +63,9 @@ class PMEssHome implements Plugin{
 		}
 	}
 	
+    public function __destruct(){
+		$this->homeConfig->save();
+	}
+    
 }
 ?>

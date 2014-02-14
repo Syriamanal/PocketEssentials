@@ -37,12 +37,12 @@ class PMEssAPI{
 			$this->server->api->session->sessions[$player->CID]["isVanished"] = false;
 		}
 		if($this->server->api->session->sessions[$player->CID]["isVanished"] == false){
+            $packet = new RemovePlayerPacket();
+            $packet->eid = $player->eid;
 			foreach($player->level->players as $p)
 			{
 				if($player->eid != $p->eid){
-					$p->dataPacket(MC_REMOVE_ENTITY, array(
-					"eid" => $player->eid
-					));
+					$p->dataPacket($packet);
 				}
 			}
 			$this->server->api->session->sessions[$player->CID]["isVanished"] = true;
@@ -87,20 +87,21 @@ class PMEssAPI{
 					$un = $player->username;
 				}
 				
+                $packet = new AddPlayerPacket();
+                $packet->clientID = 0;
+                $packet->username = $un;
+                $packet->eid = $player->eid;
+                $packet->x = $player->entity->x;
+                $packet->y = $player->entity->y;
+                $packet->z = $player->entity->z;
+                $packet->yaw = 0;
+                $packet->pitch = 0;
+                $packet->unknown1 = 0;
+                $packet->unknown2 = 0;
+                $packet->metadata = $player->entity->getMetadata();
 				foreach($player->level->players as $p){
 					if($player->eid != $p->eid){
-						$p->dataPacket(MC_ADD_PLAYER, array(
-							"clientID" => 0,
-							"username" => $un,
-							"eid" => $player->eid,
-							"x" => $player->entity->x,
-							"y" => $player->entity->y,
-							"z" => $player->entity->z,
-							"yaw" => 0,
-							"pitch" => 0,
-							"unknown1" => 0,
-							"unknown2" => 0,
-							"metadata" => $player->entity->getMetadata()));
+						$p->dataPacket($packet);
 					}
 				}
 			}
@@ -134,25 +135,25 @@ class PMEssAPI{
 		$this->api->session->sessions[$player->CID]["dEState"] = true;
 		$this->api->session->sessions[$player->CID]["dEType"] = 2;
 		$this->api->session->sessions[$player->CID]["dEBlockID"] = (int) $blockID;
+        $packetRemove = new RemoveEntityPacket();
+        $packetRemove->eid = $player->eid;
+        $packetAdd = new AddEntityPacket();
+        $packetAdd->eid = $player->eid;
+        $packetAdd->type = FALLING_SAND;
+        $packetAdd->x = $player->entity->x;
+        $packetAdd->y = $player->entity->y;
+        $packetAdd->z = $player->entity->z;
+        $packetAdd->did = -((int)$blockID);
+        $packetMotion = new SetEntityMotionPacket();
+        $packetMotion->eid = $player->eid;
+        $packetMotion->speedX = 0;
+        $packetMotion->speedY = 64;
+        $packetMotion->speedZ = 0;
 		foreach($player->level->players as $p){
 			if($p->eid != $player->eid){
-				$p->dataPacket(MC_REMOVE_ENTITY, array(
-					"eid" => $player->eid
-					));
-				$p->dataPacket(MC_ADD_ENTITY, array(
-					"eid" => $player->eid,
-					"type" => FALLING_SAND,
-					"x" => $player->entity->x,
-					"y" => $player->entity->y,
-					"z" => $player->entity->z,
-					"did" => -((int)$blockID),
-				));
-				$p->dataPacket(MC_SET_ENTITY_MOTION, array(
-					"eid" => $player->eid,
-					"speedX" => 0,
-					"speedY" => 64,
-					"speedZ" => 0
-				));
+				$p->dataPacket($packetRemove);
+				$p->dataPacket($packetAdd);
+				$p->dataPacket($packetMotion);
 			}
 		}
 	}
@@ -170,37 +171,37 @@ class PMEssAPI{
 		$this->api->session->sessions[$player->CID]["dEState"] = false;
 		$this->api->session->sessions[$player->CID]["dEType"] = 0;
 		$this->api->session->sessions[$player->CID]["dEBlockID"] = -1;
+        $pkRemove = new RemoveEntityPacket();
+        $pkRemove->eid = $player->eid;
+        $pkAdd = new AddPlayerPacket();
+        $pkAdd->clientID = 0;
+		$pkAdd->username = $player->username;
+		$pkAdd->eid = $player->eid;
+		$pkAdd->x = $player->entity->x;
+		$pkAdd->y = $player->entity->y;
+		$pkAdd->z = $player->entity->z;
+		$pkAdd->yaw = 0;
+		$pkAdd->pitch = 0;
+		$pkAdd->unknown1 = 0;
+		$pkAdd->unknown2 = 0;
+		$pkAdd->metadata = $player->entity->getMetadata();
 		foreach($player->level->players as $p){
 			if($p->eid != $player->eid){
-				$p->dataPacket(MC_REMOVE_ENTITY, array(
-					"eid" => $player->eid
-					));
-				$p->dataPacket(MC_ADD_PLAYER, array(
-					"clientID" => 0,
-					"username" => $player->username,
-					"eid" => $player->eid,
-					"x" => $player->entity->x,
-					"y" => $player->entity->y,
-					"z" => $player->entity->z,
-					"yaw" => 0,
-					"pitch" => 0,
-					"unknown1" => 0,
-					"unknown2" => 0,
-					"metadata" => $player->entity->getMetadata())
-					);
+				$p->dataPacket($pkRemove);
+				$p->dataPacket($pkAdd);
 			}
 		}
 	}
 	
 	public function sendBlockUpdateRAW($pos, $block){
 		if(!($pos instanceof Position) or !($block instanceof Block)){return(false);}
-		$this->server->api->player->broadcastPacket($this->server->api->player->getAll($pos->level), MC_UPDATE_BLOCK, array(
-			"x" => $pos->x,
-			"y" => $pos->y,
-			"z" => $pos->z,
-			"block" => $block->getID(),
-			"meta" => $block->getMetadata()
-		));
+        $pk = new UpdateBlockPacket();
+		$pk->x = $pos->x;
+		$pk->y = $pos->y;
+		$pk->z = $pos->z;
+		$pk->block = $block->getID();
+		$pk->meta = $block->getMetadata();
+		$this->server->api->player->broadcastPacket($this->server->api->player->getAll($pos->level), $pk);
 		return(true);
 	}
 	

@@ -2,7 +2,7 @@
                                      PocketMine Essentials Package
                                                 by Kevin Wang
 ----------------------------------------------------------------------------------------------
-                                     Package Version: 4.1.8-Alpha
+                                     Package Version: 5.0.0-Beta
 ----------------------------------------------------------------------------------------------
 Skype: kvwang98 ( The one without _rec after the username )
 E-Mail: kevin@cnkvha.com
@@ -12,6 +12,17 @@ E-Mail: kevin@cnkvha.com
 ==============================================================================================
 
 What's New: 
+  - 5.0.0 Beta ( 2014/2/14 )
+      - Added {API}->file->copyFolder() to FileAPI. 
+      - Added {API}->file->deleteFolder() to FileAPI. 
+      - Now Supported Sign touch handler register. 
+      - Added Seprate Inventory(per world group) Support
+      - Added Seprate Chat(per world group) Support
+      - Added [wmonitor] sign, tap to see how many players in a specified world
+      - Added Sign tap events, now you can develop easily using our plugins
+      - Added Event "pmess.signs.other.denytextchange"(File: PMEssModules/PMEssSigns.php)
+      - Added WorldConfig
+        (It includes to set up worlds to deny auto load when startup)
   - 4.1.8 Alpha ( 2014/2/8 )
       - Fixed the signs case bug
         (If you don't update, players can type [Free] instead of [free] to make free signs)

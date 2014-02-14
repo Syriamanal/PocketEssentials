@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-Warps
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssWarps
 apiversion=11,12

@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-Core
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssCore
 apiversion=11,12
@@ -66,6 +66,8 @@ class PMEssCore implements Plugin{
 		$this->api->session->setDefaultData("dEType", 0);  //0 = none, 1 = primed TNT, 2 = Block
 		$this->api->session->setDefaultData("dEBlockID", -1); 
 		
+        DataPacketSendEvent::register(array($this, "handleSendDataPacket"), EventPriority::HIGHEST);
+        
 		$this->api->schedule(5, array($this, "timerMoveEntity"), array(), true);
 		
         $this->api->addHandler("api.ban.check", array($this, "handleEvent"), 65535);
@@ -99,21 +101,80 @@ class PMEssCore implements Plugin{
 	}
 	
 	public function timerMoveEntity(){
+
 		foreach($this->dEData as $p){
+            $pk = new MoveEntityPacket_PosRot();
+            $pk->eid = $p->eid;
+            $pk->x = $p->entity->x;
+            $pk->y = $p->entity->y+0.5;
+            $pk->z = $p->entity->z;
+            $pk->yaw = $p->entity->yaw;
+            $pk->pitch = $p->entity->pitch;
 			if($p instanceof Player){
 				$players = $p->level->players;
 				unset($players[$p->CID]);
-				$this->api->player->broadcastPacket($players, MC_MOVE_ENTITY_POSROT, array(
-					"eid" => $p->eid,
-					"x" => $p->entity->x,
-					"y" => $p->entity->y+0.5,
-					"z" => $p->entity->z,
-					"yaw" => $p->entity->yaw,
-					"pitch" => $p->entity->pitch
-				));
+				$this->api->player->broadcastPacket($players, $pk);
 			}
 		}
 	}
+    
+    public function handleSendDataPacket(DataPacketSendEvent $event){
+    	$packet = $event->getPacket();
+		if(($packet instanceof AddPlayerPacket) or ($packet instanceof MovePlayerPacket) or ($packet instanceof RemovePlayerPacket)){
+            $eid = $packet->eid;
+            $player = $this->api->player->getByEID($eid);
+            if(!($player instanceof Player)){return;}
+        
+
+        	if($this->api->session->sessions[$player->CID]["isVanished"] == true){
+                $event->setCancelled();
+			}elseif($this->api->session->sessions[$player->CID]["dPState"] == true){
+				foreach($data->level->players as $p){
+					if($player->CID == $p->CID){continue;}
+					$this->recreateDPEntity($p, $player);
+                }
+                $event->setCancelled();
+			}elseif($this->api->session->sessions[$player->CID]["dMState"]){
+				foreach($data->level->players as $p){
+					if($player->CID == $p->CID){continue;}
+					$this->recreateEntityToMob($p, $this->api->session->sessions[$player->CID]["dMData"], $player);
+				}
+                $event->setCancelled();
+			}elseif($this->api->session->sessions[$player->CID]["dEState"]){
+				if($this->api->session->sessions[$player->CID]["dEType"] == 1){
+					foreach($data->level->players as $p){
+						if($player->CID == $p->CID){continue;}
+						$this->recreatePTNTEntity($p, $player);
+					}
+				}elseif($this->api->session->sessions[$player->CID]["dEType"] == 2){
+					foreach($data->level->players as $p){
+						if($player->CID == $p->CID){continue;}
+						$this->recreateBlockEntity($p, $player, $this->api->session->sessions[$player->CID]["dEBlockID"]);
+					}
+				}
+                $event->setCancelled();
+			}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+		}
+
+    }
+    
 	public function handleEvent(&$data, $event){
 		switch($event){
             case "api.ban.check":
@@ -124,57 +185,17 @@ class PMEssCore implements Plugin{
                 }
                 break;
 			case "player.move":
-				if($this->api->session->sessions[$data->player->CID]["chkedDisguise"] == false){
-					foreach($data->level->players as $p){
-						if($data->player->CID == $p->CID){continue;}
-						if($this->api->session->sessions[$p->CID]["isVanished"]){
-							$data->player->dataPacket(MC_REMOVE_ENTITY, array(
-								"eid" => $p->entity->eid
-								));
-						}elseif($this->api->session->sessions[$p->CID]["dPState"]){
-							$this->recreateDPEntity($data->player, $p);
-						}elseif($this->api->session->sessions[$p->CID]["dMState"]){
-							$this->recreateEntityToMob($data->player, $this->api->session->sessions[$p->CID]["dMData"], $p);
-						}elseif($this->api->session->sessions[$p->CID]["dEState"]){
-							if($this->api->session->sessions[$p->CID]["dEType"] == 1){
-								$this->recreatePTNTEntity($data->player, $p);
-							}elseif($this->api->session->sessions[$p->CID]["dEType"] == 2){
-								$this->recreateBlockEntity($data->player, $p, $this->api->session->sessions[$p->CID]["dEBlockID"]);
-							}
-						}
-					}
-					if($this->api->session->sessions[$data->player->CID]["isVanished"] == true){
-						foreach($data->level->players as $p){
-							if($data->player->CID == $p->CID){continue;}
-							$p->dataPacket(MC_REMOVE_ENTITY, array(
-								"eid" => $data->eid
-								));
-						}
-					}elseif($this->api->session->sessions[$data->player->CID]["dPState"] == true){
-						foreach($data->level->players as $p){
-							if($data->player->CID == $p->CID){continue;}
-							$this->recreateDPEntity($p, $data->player);
-						}
-					}elseif($this->api->session->sessions[$data->player->CID]["dMState"]){
-						foreach($data->level->players as $p){
-							if($data->player->CID == $p->CID){continue;}
-							$this->recreateEntityToMob($p, $this->api->session->sessions[$data->player->CID]["dMData"], $data->player);
-						}
-					}elseif($this->api->session->sessions[$data->player->CID]["dEState"]){
-						if($this->api->session->sessions[$data->player->CID]["dEType"] == 1){
-							foreach($data->level->players as $p){
-								if($data->player->CID == $p->CID){continue;}
-								$this->recreatePTNTEntity($p, $data->player);
-							}
-						}elseif($this->api->session->sessions[$data->player->CID]["dEType"] == 2){
-							foreach($data->level->players as $p){
-								if($data->player->CID == $p->CID){continue;}
-								$this->recreateBlockEntity($p, $data->player, $this->api->session->sessions[$data->player->CID]["dEBlockID"]);
-							}
-						}
-					}
-					$this->api->session->sessions[$data->player->CID]["chkedDisguise"] = true;
-				}
+
+            
+            
+            
+            
+					
+
+
+                    
+                    
+                    
 				return;
 				break;
 			case "player.chat":
@@ -698,21 +719,22 @@ class PMEssCore implements Plugin{
 	}
 	public function recreateEntity($p, $issuer)
 	{
-		$p->dataPacket(MC_REMOVE_ENTITY, array(
-			"eid" => $issuer->eid
-		));
-		$p->dataPacket(MC_ADD_PLAYER, array(
-			"clientID" => 0,
-			"username" => $issuer->username,
-			"eid" => $issuer->eid,
-			"x" => $issuer->entity->x,
-			"y" => $issuer->entity->y,
-			"z" => $issuer->entity->z,
-			"yaw" => 0,
-			"pitch" => 0,
-			"unknown1" => 0,
-			"unknown2" => 0,
-			"metadata" => $issuer->entity->getMetadata()));
+        $pkRemove = RemoveEntityPacket();
+        $pkRemove->eid = $issuer->eid;
+		$p->dataPacket($pkRemove);
+        $pkAdd = new AddPlayerPacket();
+        $pkAdd->clientID = 0;
+		$pkAdd->username = $issuer->username;
+		$pkAdd->$pkAdd->eid = $issuer->eid;
+		$pkAdd->x = $issuer->entity->x;
+		$pkAdd->y = $issuer->entity->y;
+		$pkAdd->z = $issuer->entity->z;
+		$pkAdd->$pkAdd->$pkAdd->yaw = 0;
+		$pkAdd->pitch = 0;
+		$pkAdd->unknown1 = 0;
+		$pkAdd->unknown2 = 0;
+		$pkAdd->metadata = $issuer->entity->getMetadata();
+		$p->dataPacket($pkAdd);
 	}
 	
 	private function s7as54g_doafo2($pid, $s){
@@ -724,71 +746,71 @@ class PMEssCore implements Plugin{
 	
 	public function recreateDPEntity($p, $issuer)
 	{
-		$p->dataPacket(MC_REMOVE_ENTITY, array(
-			"eid" => $issuer->eid
-		));
-		$p->dataPacket(MC_ADD_PLAYER, array(
-			"clientID" => 0,
-			"username" => $this->api->session->sessions[$issuer->CID]["dPUsername"],
-			"eid" => $issuer->eid,
-			"x" => $issuer->entity->x,
-			"y" => $issuer->entity->y,
-			"z" => $issuer->entity->z,
-			"yaw" => 0,
-			"pitch" => 0,
-			"unknown1" => 0,
-			"unknown2" => 0,
-			"metadata" => $issuer->entity->getMetadata()));
+        $pkRemove = RemoveEntityPacket();
+        $pkRemove->eid = $issuer->eid;
+        $p->dataPacket($pkRemove);
+        $pkAdd = new AddPlayerPacket();
+        $pkAdd->clientID = 0;
+		$pkAdd->username = $this->api->session->sessions[$issuer->CID][dPUsername];
+		$pkAdd->eid = $issuer->eid;
+		$pkAdd->x = $issuer->entity->x;
+		$pkAdd->y = $issuer->entity->y;
+		$pkAdd->z = $issuer->entity->z;
+		$pkAdd->yaw = 0;
+		$pkAdd->pitch = 0;
+		$pkAdd->unknown1 = 0;
+		$pkAdd->unknown2 = 0;
+		$pkAdd->metadata = $issuer->entity->getMetadata();
+		$p->dataPacket($pkAdd);
 	}
 	
 	public function recreatePTNTEntity($p, $issuer)
 	{
-		$p->dataPacket(MC_REMOVE_ENTITY, array(
-			"eid" => $issuer->eid
-		));
-		$p->dataPacket(MC_ADD_ENTITY, array(
-			"eid" => $issuer->eid,
-			"type" => OBJECT_PRIMEDTNT,
-			"x" => $issuer->entity->x,
-			"y" => $issuer->entity->y,
-			"z" => $issuer->entity->z,
-			"did" => 0,
-		));
-		$p->dataPacket(MC_SET_ENTITY_MOTION, array(
-			"eid" => $issuer->eid,
-			"speedX" => 0,
-			"speedY" => 0,
-			"speedZ" => 0
-		));
+        $pkRemove = RemoveEntityPacket();
+        $pkRemove->eid = $issuer->eid;
+        $p->dataPacket($pkRemove);
+        $pkAdd = AddEntityPacket();
+        $pkAdd->eid = $issuer->eid;
+		$pkAdd->type = OBJECT_PRIMEDTNT;
+		$pkAdd->x = $issuer->entity->x;
+		$pkAdd->y = $issuer->entity->y;
+		$pkAdd->z = $issuer->entity->z;
+		$pkAdd->did = 0;
+		$p->dataPacket($pkAdd);
+        $pkMotion = new SetEntityMotionPacket();
+        $pkMotion->eid = $issuer->eid;
+        $pkMotion->speedX = 0;
+        $pkMotion->speedY = 64;
+        $pkMotion->speedZ = 0;
+		$p->dataPacket($pkMotion);
 	}
 	
 	public function recreateBlockEntity($p, $issuer, $blockID = 1)
 	{
-		$p->dataPacket(MC_REMOVE_ENTITY, array(
-			"eid" => $issuer->eid
-		));
-		$p->dataPacket(MC_ADD_ENTITY, array(
-			"eid" => $issuer->eid,
-			"type" => FALLING_SAND,
-			"x" => $issuer->entity->x,
-			"y" => $issuer->entity->y,
-			"z" => $issuer->entity->z,
-			"did" => -$blockID,
-		));
-		$p->dataPacket(MC_SET_ENTITY_MOTION, array(
-			"eid" => $issuer->eid,
-			"speedX" => 0,
-			"speedY" => 64,
-			"speedZ" => 0
-		));
+        $pkRemove = RemoveEntityPacket();
+        $pkRemove->eid = $issuer->eid;
+        $p->dataPacket($pkRemove);
+        $pkAdd = AddEntityPacket();
+        $pkAdd->eid = $issuer->eid;
+		$pkAdd->type = OBJECT_PRIMEDTNT;
+		$pkAdd->x = $issuer->entity->x;
+		$pkAdd->y = $issuer->entity->y;
+		$pkAdd->z = $issuer->entity->z;
+        $pkAdd->did = -$blockID;
+		$p->dataPacket($pkAdd);
+        $pkMotion = new SetEntityMotionPacket();
+        $pkMotion->eid = $issuer->eid;
+        $pkMotion->speedX = 0;
+        $pkMotion->speedY = 64;
+        $pkMotion->speedZ = 0;
+		$p->dataPacket($pkMotion);
 	}
 	
 	public function recreateEntityToMob($p, $mobid, $issuer)
 	{
-		$p->dataPacket(MC_REMOVE_ENTITY, array(
-			"eid" => $issuer->eid
-		));
-		
+        $pkRemove = RemoveEntityPacket();
+        $pkRemove->eid = $issuer->eid;
+        $p->dataPacket($pkRemove);
 		//Get the metadata manually
 		$flags = 0;
 		$flags |= $issuer->entity->fire > 0 ? 1:0;
@@ -804,24 +826,22 @@ class PMEssCore implements Plugin{
 			$d[16]["value"] = (($this->data["Sheared"] == 1 ? 1:0) << 4) | (mt_rand(0,15) & 0x0F);
 		}
 		
-		
-		
-		$p->dataPacket(MC_ADD_MOB, array(
-			"type" => $mobid,
-			"eid" => $issuer->eid,
-			"x" => $issuer->entity->x,
-			"y" => $issuer->entity->y,
-			"z" => $issuer->entity->z,
-			"yaw" => 0,
-			"pitch" => 0,
-			"metadata" => $d
-		));
-		$p->dataPacket(MC_SET_ENTITY_MOTION, array(
-			"eid" => $issuer->eid,
-			"speedX" => (int) ($issuer->entity->speedX * 400),
-			"speedY" => (int) ($issuer->entity->speedY * 400),
-			"speedZ" => (int) ($issuer->entity->speedZ * 400)
-		));
+		$pkAdd = new AddMobPacket();
+        $pkAdd->type = $mobid;
+		$pkAdd->eid = $issuer->eid;
+		$pkAdd->x = $issuer->entity->x;
+		$pkAdd->y = $issuer->entity->y;
+		$pkAdd->z = $issuer->entity->z;
+		$pkAdd->yaw = 0;
+		$pkAdd->pitch = 0;
+		$pkAdd->metadata = $d;
+		$p->dataPacket($pkAdd);
+        $pkMotion = new SetEntityMotionPacket();
+        $pkMotion->eid = $issuer->eid;
+		$pkMotion->speedX = (int) ($issuer->entity->speedX * 400);
+		$pkMotion->speedY = (int) ($issuer->entity->speedY * 400);
+		$pkMotion->speedZ = (int) ($issuer->entity->speedZ * 400);
+		$p->dataPacket($pkMotion);
 	}
 
 	

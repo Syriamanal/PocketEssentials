@@ -4,7 +4,7 @@
 __PocketMine Plugin__
 name=PMEssentials-Redstone
 description=Redstone System
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssRedstone
 apiversion=11,12
@@ -217,14 +217,14 @@ class PMEssRedstone implements Plugin{
 								}
 								break;
 						case EXPLOSIVEBLOCK:
+                            $pk = new ExplodePacket();
+                            $pk->x = $x;
+                            $pk->y = $y;
+                            $pk->z = $z;
+                            $pk->radius = 4;
+                            $pk->records = array();
 							foreach($target->level->players as $p){
-								$p->dataPacket(MC_EXPLOSION, array(
-								"x" => $x,
-								"y" => $y,
-								"z" => $z,
-								"radius" => 4,
-								"records" => array(), //Do not break any blocks. 
-								));
+								$p->dataPacket($pk);
 							}
 							break;
 					}

@@ -15,13 +15,19 @@ E-Mail: kevin@cnkvha.com
 
 class PMEssInfWorldAPI{
     private $server;
-	
+	private $defaultExclude = array("DenyAutoLoad" => array(array("type" => 0, "name" => "the_world_name_to_deny_loading_when_startup")));
+    private $denyAutoLoad = array();
+    
     function __construct(){
         $this->server = ServerAPI::request();
     }
 
     public  function init(){
-
+        console("[Worlds] Reading configs...");
+        $cfg = new Config(FILE_PATH . "WorldConfig.json", CONFIG_JSON, $this->defaultExclude);
+        $this->denyAutoLoad = $cfg->get("DenyAutoLoad");
+        unset($cfg);
+        console("[Worlds] Configs loaded. ");
 		console("[Worlds] Loading All Worlds...");
         $this->loadAllWorlds();
 		console("[Worlds] All Worlds Loaded!");
@@ -36,6 +42,7 @@ class PMEssInfWorldAPI{
         $files = scandir($path);
         foreach($files as $f) {
             if ($f !== "." && $f !== ".." && is_dir($path.$f)) {
+                if($this->isDeniedAutoLoad($f)){continue;}
                 if($this->server->api->level->loadLevel($f) === false){
 					console("[Worlds] Level " . $f . " is in generating. \n");
                     $this->server->api->level->generateLevel($f);
@@ -46,6 +53,31 @@ class PMEssInfWorldAPI{
         }
     }
 
+    
+    public function isDeniedAutoLoad($wName){
+        $wName = strtolower($wName);
+        //Search from type 0 to 2
+        foreach($this->denyAutoLoad as $wIndex => $wData){
+            if($wData["type"] != 0){continue;}
+            if($wName == strtolower($wData["name"])){
+                return(true);
+            }
+        }
+        foreach($this->denyAutoLoad as $wIndex => $wData){
+            if($wData["type"] != 1){continue;}
+            if($this->server->api->utils->startWith($wName, strtolower($wData["name"]))){
+                return(true);
+            }
+        }
+        foreach($this->denyAutoLoad as $wIndex => $wData){
+            if($wData["type"] != 2){continue;}
+            if($this->server->api->utils->endWith($wName, strtolower($wData["name"]))){
+                return(true);
+            }
+        }
+        return(false);
+    }
+    
 	public function commandHandler($cmd, $arg, $issuer, $alias){
 		switch(strtolower($cmd))
 		{

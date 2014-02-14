@@ -1,13 +1,16 @@
 Additional Declaration: 
-1: iControlU and DisguiseCraft concept is not mine BUT
+1: PocketEssentials also called PMEss
+2: iControlU and DisguiseCraft concept is not mine BUT
     I implemented them first in PocketMine plugins and
    they are NOT on the same platform. So I have the concept/idea/code 
    copyright on the MCPE platform and the original concept is
    ONLY copyright on Bukkit platform. 
-2: You may NOT copy my code for your own personal use or release it,
-3: You may NOT commercially sell my plugin,
-4: You may NOT claim it as your own creation,
-5: You may NOT post my code on a foreign website and or this website.
+3: You may NOT copy my code for your own personal use or release it,
+4: You may NOT commercially sell my plugin,
+5: You may NOT claim it as your own creation,
+6: You may NOT post my code on a foreign website and or this website.
+7: You may NOT re-implement any of the feature/concept already exists in the PMEss project. 
+8: This licence can be appropriated for any version of this project. 
 
 
                     GNU GENERAL PUBLIC LICENSE

@@ -5,7 +5,7 @@
 __PocketMine Plugin__
 name=PMEss-GroupManager
 description=PocketEssentials GroupManager
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssGM
 apiversion=11,12
@@ -155,7 +155,10 @@ class PMEssGM implements Plugin{
 				}else{
 					$msg = str_replace("$", "§", $data["message"]);
 				}
-				$this->api->chat->send(false, $this->getUserPrefix($un) . $un . $this->getUserSuffix($un) . ": \n" . $msg);
+                $fullMsg = $this->getUserPrefix($un) . $un . $this->getUserSuffix($un) . ": \n" . $msg;
+                if($this->api->dhandle("pmess.chat.sepratehandler", array("player" => $data["player"], "fullmessage" => $fullMsg)) != true){
+                    $this->api->chat->send(false, $fullMsg);
+                }
 				return(false);
 				break;
 			case "op.check":

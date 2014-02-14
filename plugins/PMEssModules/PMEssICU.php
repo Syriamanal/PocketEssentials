@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PMEssentials-iControlU
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=PMEssICU
 apiversion=11,12
@@ -138,14 +138,14 @@ class PMEssICU implements Plugin{
 				if(($data["controller"] instanceof Player) and ($data["underController"] instanceof Player)){
 					$tPos = new Position($data["controller"]->entity->x, $data["controller"]->entity->y, $data["controller"]->entity->z, $data["controller"]->level);
 					$data["underController"]->teleport($tPos, $data["controller"]->entity->yaw, $data["controller"]->entity->pitch, true, true, false);
-					$data["underController"]->dataPacket(MC_MOVE_ENTITY_POSROT, array(
-						"eid" => $data["underController"]->entity->eid,
-						"x" => $data["controller"]->entity->x,
-						"y" => $data["controller"]->entity->y,
-						"z" => $data["controller"]->entity->z,
-						"yaw" => $data["controller"]->entity->yaw,
-						"pitch" => $data["controller"]->entity->pitch
-					));
+                    $pk = new MoveEntityPacket_PosRot();
+                    $pk->eid = $data["underController"]->entity->eid;
+					$pk->x = $data["controller"]->entity->x;
+					$pk->y = $data["controller"]->entity->y;
+					$pk->z = $data["controller"]->entity->z;
+					$pk->yaw = $data["controller"]->entity->yaw;
+					$pk->pitch = $data["controller"]->entity->pitch;
+					$data["underController"]->dataPacket($pk);
 				}else{
 					if($data["controller"] instanceof Player){				
 						$data["controller"]->sendChat("Target isn't exist anymore. ");

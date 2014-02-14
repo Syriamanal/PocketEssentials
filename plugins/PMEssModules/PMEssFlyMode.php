@@ -3,7 +3,7 @@
 /*
 __PocketMine Plugin__
 name=PocketEssentials-FlyMode
-version=4.1.8-Alpha
+version=5.0.0-Beta
 author=Kevin Wang
 class=KVFlyMode
 apiversion=11,12
@@ -99,14 +99,14 @@ class KVFlyMode implements Plugin{
 
 					foreach($session["blocks"] as $i => $block){
 						$index = array_map("intval", explode(".", $i));
+                        $pk = new UpdateBlockPacket();
+                        $pk->x = $index[0];
+						$pk->y = $index[1];
+						$pk->z = $index[2];
+						$pk->block = $block->getID();
+						$pk->meta = $block->getMetadata();
 						foreach($this->api->player->getAll($player->level) as $p){
-							$p->dataPacket(MC_UPDATE_BLOCK, array(
-								"x" => $index[0],
-								"y" => $index[1],
-								"z" => $index[2],
-								"block" => $block->getID(),
-								"meta" => $block->getMetadata()		
-							));
+							$p->dataPacket($pk);
 						}
 					}
 					$this->api->session->sessions[$player->player->CID]["FlyModeData"]["blocks"] = $newBlocks;
@@ -133,14 +133,14 @@ class KVFlyMode implements Plugin{
 		}else{
 			foreach($this->api->session->sessions[$issuer->CID]["FlyModeData"]["blocks"] as $i => $block){
 				$index = array_map("intval", explode(".", $i));
+                $pk = new UpdateBlockPacket();
+                $pk->x = $index[0];
+                $pk->y = $index[1];
+                $pk->z = $index[2];
+                $pk->block = $block->getID();
+                $pk->meta = $block->getMetadata();
 				foreach($this->api->player->getAll($issuer->level) as $p){
-					$p->dataPacket(MC_UPDATE_BLOCK, array(
-					"x" => $index[0],
-						"y" => $index[1],
-						"z" => $index[2],
-						"block" => $block->getID(),
-						"meta" => $block->getMetadata()		
-					));
+					$p->dataPacket($pk);
 				}
 			}
 			unset($this->api->session->sessions[$issuer->CID]["FlyModeData"]);
